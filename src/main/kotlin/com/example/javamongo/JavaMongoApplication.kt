@@ -1,86 +1,51 @@
 package com.example.javamongo
 
-import com.example.javamongo.data.entity.Client
-import com.example.javamongo.data.entity.ClientRepository
-import org.bson.types.ObjectId
+import com.example.javamongo.data.migration.Migration
+import com.example.javamongo.data.migration.Strategy
+import com.example.javamongo.data.repos.ClientRepository
+import com.example.javamongo.data.repos.MedicineRepository
+import com.example.javamongo.data.repos.TypeRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.core.env.Environment
+import org.springframework.core.io.Resource
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 
 @SpringBootApplication
 @EnableMongoRepositories
 class JavaMongoApplication(
     @Autowired
-    val clientRepository: ClientRepository
+    val clientRepository: ClientRepository,
+    @Autowired
+    val typeRepository: TypeRepository,
+    @Autowired
+    val medicineRepository: MedicineRepository,
+    @Autowired
+    val migration: Migration,
+    @Autowired
+    val environment: Environment
 ) : CommandLineRunner {
-    val listClients = listOf(
-        Client(
-            ObjectId(),
-            "Duvanov",
-            "Ivan",
-            "Olegovich",
-            "8(905)948-96-92",
-            "Lenina avenue",
-            hashMapOf(
-                "cat_name" to "Shupistick",
-                "gaming_pc" to "Pirozhochek"
-            )
-        ),
-        Client(
-            ObjectId(),
-            "Popovich",
-            "Alesha",
-            "Sergeevich",
-            "8(905)948-96-92",
-            "Octabrskiy avenue",
-            hashMapOf(
-                "dog_name" to "Kakyosya"
-            )
-        ),
-        Client(
-            ObjectId(),
-            "Romanov",
-            "Ivan",
-            "Aleksandrovich",
-            "8(905)948-96-92",
-            "Pertograd",
-            hashMapOf(
-                "gaming_pc" to "Russian Empire"
-            )
-        ),
-        Client(
-            ObjectId(),
-            "Shmadko",
-            "Alesha",
-            "Ivanovich",
-            "8(905)948-96-92",
-            "Arshloch avenue",
-            hashMapOf(
-                "salo" to "many"
-            )
-        ),
-        Client(
-            ObjectId(),
-            "Riviyski",
-            "Geralt",
-            "Ivanovich",
-            "8(905)948-96-92",
-            "Rivia avenue",
-            hashMapOf(
-                "favourite_witch" to "Triss"
-            )
-        )
-    )
+    @Value("classpath:data/data.json")
+    lateinit var resource: Resource
 
     override fun run(vararg args: String?) {
-        println("Saving clients into base")
-        clientRepository.saveAll(listClients)
-        println("Clients are saved")
-
-        println("Echo clients")
-        println(clientRepository.findAll())
+        when (Strategy.valueOf(environment.getProperty("migration.strategy")!!)) {
+            Strategy.NONE -> println("No migration ... skipping")
+            Strategy.SOFT -> {
+                println("Soft migration ...")
+                migration.insertData()
+                println("Data inserted ...")
+            }
+            Strategy.FLUSH -> {
+                println("Deleting all data ...")
+                migration.flush()
+                migration.insertData()
+                println("Data inserted ...")
+            }
+        }
     }
 }
 

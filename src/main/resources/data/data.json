@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Ivan",
+        "surname": "Duvanov",
+        "pet": "cat"
+    },
+    {
+        "name": "Olezha",
+        "surname": "Ogorodov",
+        "pet": "cat"
+    },
+    {
+        "name": "Tvarina",
+        "surname": "Krotov",
+        "pet": "dog"
+    }
+]
