@@ -1,0 +1,32 @@
+[
+    {
+        "name": "maz",
+        "attributes": {
+             "appliance": "on the skin",
+            "additionalTime": "2 days"
+        }
+    },
+    {
+        "name": "krem",
+        "attributes": {
+            "appliance": "on the skin",
+            "color": "blue",
+            "weight": "mnogo"
+        }
+    },
+    {
+        "name": "pills"
+    },
+    {
+        "name": "suspension",
+        "attributes": {
+            "volume": "1 liter"
+        }
+    },
+    {
+        "name": "drops",
+        "attributes": {
+            "doses": "mnogo"
+        }
+    }
+]

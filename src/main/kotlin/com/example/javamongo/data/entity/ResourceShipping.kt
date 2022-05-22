@@ -1,6 +1,7 @@
 package com.example.javamongo.data.entity
 
 import com.example.javamongo.data.entity.emuns.ShippingStatus
+import com.google.gson.annotations.SerializedName
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.DBRef
@@ -17,8 +18,10 @@ data class ResourceShipping(
     val amount: Int,
     val price: Double,
     @Field(name = "date_ordered")
+    @SerializedName(value = "date_ordered")
     val dateOrdered: LocalDate,
     @Field(name = "date_picked")
-    val datePicked: LocalDate? = null,
+    @SerializedName(value = "date_shipped")
+    val dateShipped: LocalDate? = null,
     val status: ShippingStatus
 )

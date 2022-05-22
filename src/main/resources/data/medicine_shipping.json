@@ -1,0 +1,157 @@
+[
+    {
+        "medicine_id": 1,
+        "amount": 12,
+        "date_ordered": "2022-04-28",
+        "status": "IN_TRANSIT",
+        "price": 120
+    },
+    {
+        "medicine_id": 3,
+        "amount": 32,
+        "date_ordered": "2022-04-28",
+        "status": "IN_TRANSIT",
+        "price": 85
+    },
+    {
+        "medicine_id": 8,
+        "amount": 14,
+        "date_ordered": "2022-04-28",
+        "status": "IN_TRANSIT",
+        "price": 125
+    },
+    {
+        "medicine_id": 9,
+        "amount": 7,
+        "date_ordered": "2022-04-28",
+        "status": "IN_TRANSIT",
+        "price": 120
+    },
+    {
+        "medicine_id": 8,
+        "amount": 20,
+        "date_ordered": "2022-04-28",
+        "status": "IN_TRANSIT",
+        "price": 10
+    },
+    {
+        "medicine_id": 1,
+        "amount": 20,
+        "date_ordered": "2020-12-01",
+        "date_shipped": "2020-12-11",
+        "status": "DELIVERED",
+        "price": 35
+    },
+    {
+        "medicine_id": 9,
+        "amount": 15,
+        "date_ordered": "2020-12-01",
+        "date_shipped": "2020-12-11",
+        "status": "DELIVERED",
+        "price": 135
+    },
+    {
+        "medicine_id": 1,
+        "amount": 23,
+        "date_ordered": "2020-12-01",
+        "date_shipped": "2020-12-11",
+        "status": "DELIVERED",
+        "price": 135
+    },
+    {
+        "medicine_id": 11,
+        "amount": 11,
+        "date_ordered": "2020-12-01",
+        "date_shipped": "2020-12-11",
+        "status": "DELIVERED",
+        "price": 135
+    },
+    {
+        "medicine_id": 2,
+        "amount": 20,
+        "date_ordered": "2020-12-01",
+        "date_shipped": "2020-12-11",
+        "status": "DELIVERED",
+        "price": 100
+    },
+    {
+        "medicine_id": 9,
+        "amount": 30,
+        "date_ordered": "2020-12-01",
+        "date_shipped": "2020-12-11",
+        "status": "DELIVERED",
+        "price": 135
+    },
+    {
+        "medicine_id": 3,
+        "amount": 12,
+        "date_ordered": "2020-12-01",
+        "date_shipped": "2020-12-11",
+        "status": "DELIVERED",
+        "price": 93
+    },
+    {
+        "medicine_id": 4,
+        "amount": 32,
+        "date_ordered": "2020-12-01",
+        "date_shipped": "2020-12-11",
+        "status": "DELIVERED",
+        "price": 130
+    },
+    {
+        "medicine_id": 5,
+        "amount": 12,
+        "date_ordered": "2020-12-01",
+        "date_shipped": "2020-12-11",
+        "status": "DELIVERED",
+        "price": 65
+    },
+    {
+        "medicine_id": 8,
+        "amount": 11,
+        "date_ordered": "2020-12-01",
+        "date_shipped": "2020-09-10",
+        "status": "DELIVERED",
+        "price": 140
+    },
+    {
+        "medicine_id": 11,
+        "amount": 23,
+        "date_ordered": "2020-09-05",
+        "date_shipped": "2020-09-10",
+        "status": "DELIVERED",
+        "price": 10
+    },
+    {
+        "medicine_id": 10,
+        "amount": 34,
+        "date_ordered": "2020-09-05",
+        "date_shipped": "2020-09-10",
+        "status": "DELIVERED",
+        "price": 125
+    },
+    {
+        "medicine_id": 2,
+        "amount": 20,
+        "date_ordered": "2020-09-05",
+        "date_shipped": "2020-09-10",
+        "status": "DELIVERED",
+        "price": 90
+    },
+    {
+        "medicine_id": 10,
+        "amount": 18,
+        "date_ordered": "2020-09-05",
+        "date_shipped": "2020-09-10",
+        "status": "DELIVERED",
+        "price": 130
+    },
+    {
+        "medicine_id": 3,
+        "amount": 19,
+        "date_ordered": "2020-09-05",
+        "date_shipped": "2020-09-10",
+        "status": "DELIVERED",
+        "price": 95
+    }
+]

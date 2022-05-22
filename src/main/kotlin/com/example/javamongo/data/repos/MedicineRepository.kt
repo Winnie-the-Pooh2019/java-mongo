@@ -1,6 +1,5 @@
 package com.example.javamongo.data.repos
 
-import com.example.javamongo.data.entity.Client
 import com.example.javamongo.data.entity.Medicine
 import org.springframework.data.mongodb.repository.MongoRepository
 

@@ -1,0 +1,59 @@
+[
+    {
+        "name": "vodichka",
+        "critical_amount": 100,
+        "expiration": {
+            "years": 2
+        },
+        "price": 15.5
+    },
+    {
+        "name": "spirt",
+        "critical_amount": 200,
+        "expiration": {
+            "months": 2
+        },
+        "price": 18.3
+    },
+    {
+        "name": "pure spirt",
+        "critical_amount": 20,
+        "expiration": {
+            "months": 2
+        },
+        "price": 20.4
+    },
+    {
+        "name": "vodorod",
+        "critical_amount": 500,
+        "expiration": {
+            "years": 10
+        },
+        "price": 150
+    },
+    {
+        "name": "kislorod",
+        "critical_amount": 500,
+        "expiration": {
+            "years": 10
+        },
+        "price": 155
+    },
+    {
+        "name": "uglerod",
+        "critical_amount": 600,
+        "expiration": {
+            "years": 10
+        },
+        "price": 160
+    },
+    {
+        "name": "lipton ice tea",
+        "critical_amount": 10,
+        "expiration": {
+            "months": 1,
+            "days": 8
+        },
+        "price": 10.7
+    }
+]

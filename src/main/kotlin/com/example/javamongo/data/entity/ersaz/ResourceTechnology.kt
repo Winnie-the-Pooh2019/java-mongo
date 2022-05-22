@@ -1,5 +1,6 @@
-package com.example.javamongo.data.entity
+package com.example.javamongo.data.entity.ersaz
 
+import com.example.javamongo.data.entity.Resource
 import org.springframework.data.mongodb.core.mapping.DBRef
 
 data class ResourceTechnology(

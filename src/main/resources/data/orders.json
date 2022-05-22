@@ -1,0 +1,287 @@
+[
+    {
+        "status": "PICKED",
+        "date_picked": "2020-09-11",
+        "client_id": 2,
+        "medicines": [
+            {
+                "medicine_id": 1,
+                "amount": 2,
+                "price": 132,
+                "status": "DONE"
+            },
+            {
+                "medicine_id": 2,
+                "amount": 4,
+                "price": 99,
+                "status": "DONE"
+            }
+        ]
+    },
+    {
+        "status": "IN_PROGRESS",
+        "date_picked": "2008-06-02",
+        "client_id": 3,
+        "medicines": [
+            {
+                "medicine_id": 3,
+                "amount": 5,
+                "price": 90,
+                "status": "NO_COMPONENTS"
+            }
+        ]
+    },
+    {
+        "status": "PICKED",
+        "date_picked": "2020-09-11",
+        "client_id": 3,
+        "medicines": [
+            {
+                "medicine_id": 4,
+                "amount": 2,
+                "price": 100,
+                "status": "PREPARING"
+            },
+            {
+                "medicine_id": 5,
+                "amount": 12,
+                "price": 60,
+                "status": "DONE"
+            },
+            {
+                "medicine_id": 6,
+                "amount": 9,
+                "price": 100,
+                "status": "PREPARING"
+            }
+        ]
+    },
+    {
+        "status": "NO_COMPONENTS",
+        "date_picked": "2019-07-17",
+        "client_id": 1,
+        "medicines": [
+            {
+                "medicine_id": 7,
+                "amount": 4,
+                "price": 15,
+                "status": "DONE"
+            },
+            {
+                "medicine_id": 1,
+                "amount": 5,
+                "price": 132,
+                "status": "DONE"
+            },
+            {
+                "medicine_id": 2,
+                "amount": 6,
+                "price": 99,
+                "status": "DONE"
+            }
+        ]
+    },
+    {
+        "status": "IN_PROGRESS",
+        "date_picked": "2008-06-02",
+        "client_id": 4,
+        "medicines": [
+            {
+                "medicine_id": 3,
+                "amount": 1,
+                "price": 90,
+                "status": "NO_COMPONENTS"
+            }
+        ]
+    },
+    {
+        "status": "IN_PROGRESS",
+        "date_picked": "2008-06-02",
+        "client_id": 6,
+        "medicines": [
+            {
+                "medicine_id": 4,
+                "amount": 3,
+                "price": 100,
+                "status": "PREPARING"
+            }
+        ]
+    },
+    {
+        "status": "PICKED",
+        "date_picked": "2020-09-11",
+        "client_id": 7,
+        "medicines": [
+            {
+                "medicine_id": 5,
+                "amount": 5,
+                "price": 60,
+                "status": "DONE"
+            },
+            {
+                "medicine_id": 6,
+                "amount": 8,
+                "price": 100,
+                "status": "DONE"
+            }
+        ]
+    },
+    {
+        "status": "NO_COMPONENTS",
+        "date_picked": "2019-07-17",
+        "client_id": 4,
+        "medicines": [
+            {
+                "medicine_id": 7,
+                "amount": 1,
+                "price": 15,
+                "status": "NO_COMPONENTS"
+            },
+            {
+                "medicine_id": 1,
+                "amount": 2,
+                "price": 132,
+                "status": "DONE"
+            }
+        ]
+    },
+    {
+        "status": "IN_PROGRESS",
+        "date_picked": "2008-06-02",
+        "client_id": 7,
+        "medicines": [
+            {
+                "medicine_id": 2,
+                "amount": 3,
+                "price": 99,
+                "status": "PREPARING"
+            }
+        ]
+    },
+    {
+        "status": "PICKED",
+        "date_picked": "2020-09-11",
+        "client_id": 6,
+        "medicines": [
+            {
+                "medicine_id": 4,
+                "amount": 4,
+                "price": 100,
+                "status": "DONE"
+            },
+            {
+                "medicine_id": 5,
+                "amount": 5,
+                "price": 60,
+                "status": "DONE"
+            },
+            {
+                "medicine_id": 6,
+                "amount": 6,
+                "price": 100,
+                "status": "DONE"
+            }
+        ]
+    },
+    {
+        "status": "NO_COMPONENTS",
+        "date_picked": "2019-07-17",
+        "client_id": 1,
+        "medicines": [
+            {
+                "medicine_id": 7,
+                "amount": 12,
+                "price": 15,
+                "status": "PREPARING"
+            },
+            {
+                "medicine_id": 1,
+                "amount": 11,
+                "price": 132,
+                "status": "DONE"
+            },
+            {
+                "medicine_id": 2,
+                "amount": 9,
+                "price": 99,
+                "status": "NO_COMPONENTS"
+            }
+        ]
+    },
+    {
+        "status": "IN_PROGRESS",
+        "date_picked": "2008-06-02",
+        "client_id": 5,
+        "medicines": [
+            {
+                "medicine_id": 3,
+                "amount": 8,
+                "price": 90,
+                "status": "PREPARING"
+            }
+        ]
+    },
+    {
+        "status": "DONE",
+        "date_picked": "2008-06-02",
+        "client_id": 2,
+        "medicines": [
+            {
+                "medicine_id": 4,
+                "amount": 3,
+                "price": 100,
+                "status": "DONE"
+            }
+        ]
+    },
+    {
+        "status": "PICKED",
+        "date_picked": "2022-02-14",
+        "client_id": 2,
+        "medicines": [
+            {
+                "medicine_id": 5,
+                "amount": 4,
+                "price": 60,
+                "status": "NO_COMPONENTS"
+            },
+            {
+                "medicine_id": 6,
+                "amount": 1,
+                "price": 100,
+                "status": "PREPARING"
+            },
+            {
+                "medicine_id": 7,
+                "amount": 4,
+                "price": 15,
+                "status": "DONE"
+            },
+            {
+                "medicine_id": 1,
+                "amount": 5,
+                "price": 132,
+                "status": "NO_COMPONENTS"
+            },
+            {
+                "medicine_id": 2,
+                "amount": 6,
+                "price": 99,
+                "status": "NO_COMPONENTS"
+            }
+        ]
+    },
+    {
+        "status": "IN_PROGRESS",
+        "date_picked": "2022-01-20",
+        "client_id": 3,
+        "medicines": [
+            {
+                "medicine_id": 3,
+                "amount": 4,
+                "price": 90,
+                "status": "PREPARING"
+            }
+        ]
+    }
+]

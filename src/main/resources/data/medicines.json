@@ -1,0 +1,280 @@
+[
+    {
+        "name": "Spasmolgon",
+        "critical_amount": 150,
+        "expiration": {
+            "years": 2
+        },
+        "price": 133,
+        "type_id": 2,
+        "technology": {
+            "description": "do something bla bla Spasmolgon",
+            "prepare_time": {
+                "days": 2
+            },
+            "resources": [
+                {
+                    "resource_id": 1,
+                    "count": 1
+                },
+                {
+                    "resource_id": 2,
+                    "count": 7
+                }
+            ]
+        }
+    },
+    {
+        "name": "Zhopatushin",
+        "critical_amount": 200,
+        "expiration": {
+            "years": 2
+        },
+        "price": 98,
+        "type_id": 2,
+        "technology": {
+            "description": "do something bla bla Zhopatushin",
+            "prepare_time": {
+                "hours": 3,
+                "minutes": 20
+            },
+            "resources": [
+                {
+                    "resource_id": 3,
+                    "count": 2
+                },
+                {
+                    "resource_id": 5,
+                    "count": 4
+                }
+            ]
+        }
+    },
+    {
+        "name": "Glazogorin",
+        "critical_amount": 150,
+        "expiration": {
+            "years": 2
+        },
+        "price": 93,
+        "type_id": 3,
+        "technology": {
+            "description": "do something bla bla Glazogorin",
+            "prepare_time": {
+                "days": 1
+            },
+            "resources": [
+                {
+                    "resource_id": 6,
+                    "count": 5
+                },
+                {
+                    "resource_id": 4,
+                    "count": 1
+                }
+            ]
+        }
+    },
+    {
+        "name": "Analgetic",
+        "critical_amount": 100,
+        "expiration": {
+            "years": 2
+        },
+        "price": 133,
+        "type_id": 1,
+        "technology": {
+            "description": "do something bla bla Analgetic",
+            "prepare_time": {
+                "days": 6,
+                "hours": 2
+            },
+            "resources": [
+                {
+                    "resource_id": 1,
+                    "count": 3
+                },
+                {
+                    "resource_id": 7,
+                    "count": 1
+                }
+            ]
+        }
+    },
+    {
+        "name": "Zodak",
+        "critical_amount": 100,
+        "expiration": {
+            "years": 2
+        },
+        "price": 63,
+        "type_id": 3,
+        "technology": {
+            "description": "do something bla bla Zodak",
+            "prepare_time": {
+                "hours": 7
+            },
+            "resources": [
+                {
+                    "resource_id": 5,
+                    "count": 14
+                },
+                {
+                    "resource_id": 4,
+                    "count": 7
+                }
+            ]
+        }
+    },
+    {
+        "name": "Revit",
+        "critical_amount": 50,
+        "expiration": {
+            "years": 3
+        },
+        "price": 133,
+        "type_id": 2,
+        "technology": {
+            "description": "do something bla bla Revit",
+            "prepare_time": {
+                "days": 10
+            },
+            "resources": [
+                {
+                    "resource_id": 1,
+                    "count": 3
+                },
+                {
+                    "resource_id": 2,
+                    "count": 7
+                }
+            ]
+        }
+    },
+    {
+        "name": "Shadow fight",
+        "critical_amount": 100,
+        "expiration": {
+            "years": 1
+        },
+        "price": 13,
+        "type_id": 1,
+        "technology": {
+            "description": "do something bla bla Shadow fight",
+            "prepare_time": {
+                "hours": 5
+            },
+            "resources": [
+                {
+                    "resource_id": 4,
+                    "count": 4
+                },
+                {
+                    "resource_id": 2,
+                    "count": 3
+                }
+            ]
+        }
+    },
+    {
+        "name": "Omeprazol",
+        "critical_amount": 20,
+        "expiration": {
+            "years": 1
+        },
+        "price": 500,
+        "type_id": 4,
+        "technology": {
+            "description": "do something bla bla Omeprazol",
+            "prepare_time": {
+                "hours": 4
+            },
+            "resources": [
+                {
+                    "resource_id": 6,
+                    "count": 4
+                },
+                {
+                    "resource_id": 2,
+                    "count": 4
+                }
+            ]
+        }
+    },
+    {
+        "name": "Drotaverin",
+        "critical_amount": 50,
+        "expiration": {
+            "years": 5
+        },
+        "price": 200,
+        "type_id": 4,
+        "technology": {
+            "description": "do something bla bla Drotaverin",
+            "prepare_time": {
+                "hours": 12,
+                "minutes": 20
+            },
+            "resources": [
+                {
+                    "resource_id": 1,
+                    "count": 1
+                },
+                {
+                    "resource_id": 3,
+                    "count": 7
+                }
+            ]
+        }
+    },
+    {
+        "name": "Mebeverin",
+        "critical_amount": 50,
+        "expiration": {
+            "years": 7
+        },
+        "price": 190,
+        "type_id": 5,
+        "technology": {
+            "description": "do something bla bla Mebeverin",
+            "prepare_time": {
+                "days": 7
+            },
+            "resources": [
+                {
+                    "resource_id": 6,
+                    "count": 10
+                },
+                {
+                    "resource_id": 5,
+                    "count": 7
+                }
+            ]
+        }
+    },
+    {
+        "name": "Platifilin",
+        "critical_amount": 100,
+        "expiration": {
+            "years": 1
+        },
+        "price": 150,
+        "type_id": 5,
+        "technology": {
+            "description": "do something bla bla Platifilin",
+            "prepare_time": {
+                "hours": 4
+            },
+            "resources": [
+                {
+                    "resource_id": 1,
+                    "count": 1
+                },
+                {
+                    "resource_id": 2,
+                    "count": 7
+                }
+            ]
+        }
+    }
+]

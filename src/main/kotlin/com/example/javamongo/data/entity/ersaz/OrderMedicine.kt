@@ -1,5 +1,6 @@
-package com.example.javamongo.data.entity
+package com.example.javamongo.data.entity.ersaz
 
+import com.example.javamongo.data.entity.Medicine
 import com.example.javamongo.data.entity.emuns.OrderMedicineStatus
 import org.springframework.data.mongodb.core.mapping.DBRef
 

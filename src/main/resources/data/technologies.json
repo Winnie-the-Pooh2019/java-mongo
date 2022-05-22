@@ -1,0 +1,82 @@
+[
+    {
+        "description": "do something bla bla for Glazogorin, Analgetic, Zodak",
+        "prepare_time": {
+            "days": 2
+        },
+        "resources": [
+            {
+                "resource": 1,
+                "count": 1
+            },
+            {
+                "resource": 2,
+                "count": 7
+            }
+        ]
+    },
+    {
+        "description": "do something for spazmolgon, zhopatushin",
+        "prepare_time": {
+            "hours": 5
+        },
+        "resources": [
+            {
+                "resource": 2,
+                "count": 3
+            },
+            {
+                "resource": 7,
+                "count": 1
+            }
+        ]
+    },
+    {
+        "description": "do something bla bla, Revit, Shadow fight",
+        "prepare_time": {
+            "days": 2
+        },
+        "resources": [
+            {
+                "resource": 1,
+                "count": 1
+            },
+            {
+                "resource": 2,
+                "count": 7
+            }
+        ]
+    },
+    {
+        "description": "do something bla bla",
+        "prepare_time": {
+            "days": 2
+        },
+        "resources": [
+            {
+                "resource": 1,
+                "count": 1
+            },
+            {
+                "resource": 2,
+                "count": 7
+            }
+        ]
+    },
+    {
+        "description": "do something bla bla",
+        "prepare_time": {
+            "days": 2
+        },
+        "resources": [
+            {
+                "resource": 1,
+                "count": 1
+            },
+            {
+                "resource": 2,
+                "count": 7
+            }
+        ]
+    }
+]

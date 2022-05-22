@@ -1,0 +1,51 @@
+[
+    {
+        "last_name": "Romanov",
+        "first_name": "Ivan",
+        "patronymic": "Vasilyevich",
+        "phone": "8(906)864-32-14",
+        "address": "Petrov avenue"
+    },
+    {
+        "last_name": "Sviridov",
+        "first_name": "Oleg",
+        "patronymic": "",
+        "phone": "8(834)124-32-14",
+        "address": "Lenina avenue"
+    },
+    {
+        "last_name": "Olenev",
+        "first_name": "Vasiliy",
+        "patronymic": "Leonidovich",
+        "phone": "8(827)864-21-23",
+        "address": "Moskovskiy avenue"
+    },
+    {
+        "last_name": "Yakovlev",
+        "first_name": "Yakov",
+        "patronymic": "Yakovlevich",
+        "phone": "8(131)414-14-54",
+        "address": "Yakovlevkoe avenue"
+    },
+    {
+        "last_name": "Malinovich",
+        "first_name": "Michael",
+        "patronymic": "",
+        "phone": "8(123)927-32-14",
+        "address": "Malinovoe avenue"
+    },
+    {
+        "last_name": "Yagodniy",
+        "first_name": "Ivan",
+        "patronymic": "Yagogka",
+        "phone": "8(901)123-26-14",
+        "address": "Yagodnoye avenue"
+    },
+    {
+        "last_name": "Lubovliy",
+        "first_name": "Luba",
+        "patronymic": "Vasilyevich",
+        "phone": "8(123)531-54-49",
+        "address": "Lubovnoye avenue"
+    }
+]
