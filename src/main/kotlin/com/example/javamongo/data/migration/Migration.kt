@@ -12,8 +12,6 @@ import java.io.File
 @Component
 class Migration(
     @Autowired
-    private val personRepository: PersonRepository,
-    @Autowired
     private val clientRepository: ClientRepository,
     @Autowired
     private val medicineRepository: MedicineRepository,
@@ -68,7 +66,6 @@ class Migration(
         File("${resource.file.absolutePath}/$filePath.json").inputStream().bufferedReader().readText()
 
     fun flush() {
-        personRepository.deleteAll()
         clientRepository.deleteAll()
         medicineRepository.deleteAll()
         medicineShippingRepository.deleteAll()
