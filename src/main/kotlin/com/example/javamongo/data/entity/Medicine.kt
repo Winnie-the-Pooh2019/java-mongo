@@ -21,5 +21,5 @@ data class Medicine(
     @DBRef
     val type: Type,
     val price: Double,
-    val technology: Technology
+    val technology: Technology?
 )

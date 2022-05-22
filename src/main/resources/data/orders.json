@@ -78,6 +78,12 @@
                 "amount": 6,
                 "price": 99,
                 "status": "DONE"
+            },
+            {
+                "medicine_id": 8,
+                "amount": 2,
+                "price": 505,
+                "status": "DONE"
             }
         ]
     },
@@ -155,6 +161,12 @@
                 "amount": 3,
                 "price": 99,
                 "status": "PREPARING"
+            },
+            {
+                "medicine_id": 11,
+                "amount": 4,
+                "price": 160,
+                "status": "DONE"
             }
         ]
     },
@@ -231,6 +243,18 @@
                 "amount": 3,
                 "price": 100,
                 "status": "DONE"
+            },
+            {
+                "medicine_id": 8,
+                "amount": 4,
+                "price": 520,
+                "status": "PREPARING"
+            },
+            {
+                "medicine_id": 10,
+                "amount": 1,
+                "price": 195,
+                "status": "DONE"
             }
         ]
     },
@@ -268,6 +292,12 @@
                 "amount": 6,
                 "price": 99,
                 "status": "NO_COMPONENTS"
+            },
+            {
+                "medicine_id": 9,
+                "amount": 1,
+                "price": 220,
+                "status": "DONE"
             }
         ]
     },
@@ -281,6 +311,18 @@
                 "amount": 4,
                 "price": 90,
                 "status": "PREPARING"
+            },
+            {
+                "medicine_id": 10,
+                "amount": 2,
+                "price": 200,
+                "status": "DONE"
+            },
+            {
+                "medicine_id": 11,
+                "amount": 1,
+                "price": 150,
+                "status": "DONE"
             }
         ]
     }

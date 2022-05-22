@@ -183,23 +183,7 @@
             "years": 1
         },
         "price": 500,
-        "type_id": 4,
-        "technology": {
-            "description": "do something bla bla Omeprazol",
-            "prepare_time": {
-                "hours": 4
-            },
-            "resources": [
-                {
-                    "resource_id": 6,
-                    "count": 4
-                },
-                {
-                    "resource_id": 2,
-                    "count": 4
-                }
-            ]
-        }
+        "type_id": 4
     },
     {
         "name": "Drotaverin",
@@ -208,24 +192,7 @@
             "years": 5
         },
         "price": 200,
-        "type_id": 4,
-        "technology": {
-            "description": "do something bla bla Drotaverin",
-            "prepare_time": {
-                "hours": 12,
-                "minutes": 20
-            },
-            "resources": [
-                {
-                    "resource_id": 1,
-                    "count": 1
-                },
-                {
-                    "resource_id": 3,
-                    "count": 7
-                }
-            ]
-        }
+        "type_id": 4
     },
     {
         "name": "Mebeverin",
@@ -234,23 +201,7 @@
             "years": 7
         },
         "price": 190,
-        "type_id": 5,
-        "technology": {
-            "description": "do something bla bla Mebeverin",
-            "prepare_time": {
-                "days": 7
-            },
-            "resources": [
-                {
-                    "resource_id": 6,
-                    "count": 10
-                },
-                {
-                    "resource_id": 5,
-                    "count": 7
-                }
-            ]
-        }
+        "type_id": 5
     },
     {
         "name": "Platifilin",
@@ -259,22 +210,6 @@
             "years": 1
         },
         "price": 150,
-        "type_id": 5,
-        "technology": {
-            "description": "do something bla bla Platifilin",
-            "prepare_time": {
-                "hours": 4
-            },
-            "resources": [
-                {
-                    "resource_id": 1,
-                    "count": 1
-                },
-                {
-                    "resource_id": 2,
-                    "count": 7
-                }
-            ]
-        }
+        "type_id": 5
     }
 ]

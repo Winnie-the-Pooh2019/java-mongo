@@ -1,7 +1,7 @@
 [
     {
         "order_id": 1,
-        "medicine_id": 1,
+        "medicine_id": 10,
         "amount": 2,
         "price": 132,
         "status": "DONE"
@@ -215,5 +215,61 @@
         "amount": 4,
         "price": 90,
         "status": "PREPARING"
+    },
+    {
+        "order_id": 15,
+        "medicine_id": 8,
+        "amount": 4,
+        "price": 520,
+        "status": "DONE"
+    },
+    {
+        "order_id": 15,
+        "medicine_id": 9,
+        "amount": 1,
+        "price": 220,
+        "status": "DONE"
+    },
+    {
+        "order_id": 14,
+        "medicine_id": 10,
+        "amount": 3,
+        "price": 200,
+        "status": "DONE"
+    },
+    {
+        "order_id": 14,
+        "medicine_id": 11,
+        "amount": 1,
+        "price": 170,
+        "status": "DONE"
+    },
+    {
+        "order_id": 14,
+        "medicine_id": 8,
+        "amount": 1,
+        "price": 520,
+        "status": "PREPARING"
+    },
+    {
+        "order_id": 13,
+        "medicine_id": 9,
+        "amount": 4,
+        "price": 220,
+        "status": "DONE"
+    },
+    {
+        "order_id": 13,
+        "medicine_id": 10,
+        "amount": 2,
+        "price": 195,
+        "status": "PREPARING"
+    },
+    {
+        "order_id": 12,
+        "medicine_id": 8,
+        "amount": 3,
+        "price": 510,
+        "status": "DONE"
     }
 ]

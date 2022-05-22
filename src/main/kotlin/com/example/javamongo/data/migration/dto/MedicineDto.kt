@@ -17,7 +17,7 @@ data class MedicineDto(
     @SerializedName(value = "type_id")
     val typeId: Int,
     val price: Double,
-    val technology: TechnologyDto
+    val technology: TechnologyDto? = null
 )
 
 data class TechnologyDto(
@@ -41,7 +41,7 @@ fun List<MedicineDto>.toMedicineList(types: List<Type>, resources: List<Resource
         expiration = it.expiration.map { (key, value) -> IntervalEnum.valueOf(key.uppercase()) to value }.toMap(),
         type = types[it.typeId - 1],
         price = it.price,
-        technology = Technology(
+        technology = if (it.technology != null) Technology(
             description = it.technology.description,
             prepareTime = it.technology.prepareTime.map { (key, value) -> IntervalEnum.valueOf(key.uppercase()) to value }.toMap(),
             resources = it.technology.resources.map { rt ->
@@ -50,6 +50,6 @@ fun List<MedicineDto>.toMedicineList(types: List<Type>, resources: List<Resource
                     count = rt.count
                 )
             }
-        )
+        ) else null
     )
 }

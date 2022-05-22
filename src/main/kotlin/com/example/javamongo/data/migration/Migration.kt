@@ -24,8 +24,6 @@ class Migration(
     @Autowired
     private val resourceShippingRepository: ResourceShippingRepository,
     @Autowired
-    private val technologyRepository: TechnologyRepository,
-    @Autowired
     private val typeRepository: TypeRepository
 ) {
     @Value("classpath:data/")
@@ -47,6 +45,10 @@ class Migration(
         val clients = gson.fromJson(getData("clients"), Array<ClientDto>::class.java).toList().toClientList()
         val orders =
             gson.fromJson(getData("orders"), Array<OrderDto>::class.java).toList().toOrderList(medicines, clients)
+
+        orders.forEach {
+            it.medicines.forEach { ti -> println(ti.medicine.name) }
+        }
 
         typeRepository.saveAll(types)
         resourceRepository.saveAll(resources)
@@ -72,7 +74,6 @@ class Migration(
         orderRepository.deleteAll()
         resourceRepository.deleteAll()
         resourceShippingRepository.deleteAll()
-        technologyRepository.deleteAll()
         typeRepository.deleteAll()
     }
 }
