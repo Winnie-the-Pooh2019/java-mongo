@@ -42,51 +42,52 @@ class JavaMongoApplication(
                 migration.insertData()
                 println("Data inserted ...")
             }
-        }
+            Strategy.TEST -> {
+                runBlocking {
+                    println("Processing first query ...")
+                    orderService.getNotPickedClients().forEach(::println)
+                    println("Processing 2.1 query ...")
+                    orderService.getAwaitingClients().forEach(::println)
+                    println("Processing 2.2 query ...")
+                    orderService.getAwaitingClientsByMedicineType("krem").forEach(::println)
+                    println("Processing 3.1 query ...")
+                    orderService.getMostPopularMedicines().forEach(::println)
+                    println("Processing 3.2 query ...")
+                    orderService.getMostPopularMedicinesByType("krem").forEach(::println)
+                    println("Processing 4.1 query ...")
+                    orderService.getClientsInIntervalByMedicine(
+                        LocalDate.parse("2002-01-01"),
+                        LocalDate.parse("2021-01-01"),
+                        "Spasmolgon"
+                    ).forEach(::println)
+                    println("Processing 4.2 query ...")
+                    orderService.getClientsInIntervalByTypes(
+                        LocalDate.parse("2002-01-01"),
+                        LocalDate.parse("2021-01-01"),
+                        listOf("maz", "krem")
+                    ).forEach(::println)
+                    println("Processing query 5")
+                    medicineShippingService.getSoldOutMedicines().forEach(::println)
+                    println("Processing query 6")
+                    orderService.getOrdersInProgress().forEach(::println)
+                    println("Processing query 7")
+                    orderService.getMedicinesInProgress().forEach(::println)
+                    println("Processing query 8.1")
+                    orderService.getMedicinesTechInProgress().forEach(::println)
+                    println("Processing query 8.2")
+                    medicineService.getMedicinesTechByMeds(listOf("Zhopatushin")).forEach(::println)
+                    println("Processing query 8.3")
+                    medicineService.getMedicinesTechByTypes(listOf("maz")).forEach(::println)
+                    println("Processing query 9")
+                    medicineService.getTechnologyResourceByMed("Spasmolgon").forEach(::println)
+                    println("Processing query 10.1")
+                    orderService.getFavouriteClientsByMeds(listOf("Spasmolgon")).forEach(::println)
+                    println("Processing query 10.2")
+                    orderService.getFavouriteClientsByTypes(listOf("maz")).forEach(::println)
 
-        runBlocking {
-            println("Processing first query ...")
-            orderService.getNotPickedClients().forEach(::println)
-            println("Processing 2.1 query ...")
-            orderService.getAwaitingClients().forEach(::println)
-            println("Processing 2.2 query ...")
-            orderService.getAwaitingClientsByMedicineType("krem").forEach(::println)
-            println("Processing 3.1 query ...")
-            orderService.getMostPopularMedicines().forEach(::println)
-            println("Processing 3.2 query ...")
-            orderService.getMostPopularMedicinesByType("krem").forEach(::println)
-            println("Processing 4.1 query ...")
-            orderService.getClientsInIntervalByMedicine(
-                LocalDate.parse("2002-01-01"),
-                LocalDate.parse("2021-01-01"),
-                "Spasmolgon"
-            ).forEach(::println)
-            println("Processing 4.2 query ...")
-            orderService.getClientsInIntervalByTypes(
-                LocalDate.parse("2002-01-01"),
-                LocalDate.parse("2021-01-01"),
-                listOf("maz", "krem")
-            ).forEach(::println)
-            println("Processing query 5")
-            medicineShippingService.getSoldOutMedicines().forEach(::println)
-            println("Processing query 6")
-            orderService.getOrdersInProgress().forEach(::println)
-            println("Processing query 7")
-            orderService.getMedicinesInProgress().forEach(::println)
-            println("Processing query 8.1")
-            orderService.getMedicinesTechInProgress().forEach(::println)
-            println("Processing query 8.2")
-            medicineService.getMedicinesTechByMeds(listOf("Zhopatushin")).forEach(::println)
-            println("Processing query 8.3")
-            medicineService.getMedicinesTechByTypes(listOf("maz")).forEach(::println)
-            println("Processing query 9")
-            medicineService.getTechnologyResourceByMed("Spasmolgon").forEach(::println)
-            println("Processing query 10.1")
-            orderService.getFavouriteClientsByMeds(listOf("Spasmolgon")).forEach(::println)
-            println("Processing query 10.2")
-            orderService.getFavouriteClientsByTypes(listOf("maz")).forEach(::println)
-
-            println("finished")
+                    println("finished")
+                }
+            }
         }
     }
 }
