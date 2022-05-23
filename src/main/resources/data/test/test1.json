@@ -1,7 +1,0 @@
-[
-  {
-    "first_name": "Ivan",
-    "id": {"$oid": "628b37e465cc1c091dc15096"},
-    "last_name": "Romanov"
-  }
-]
