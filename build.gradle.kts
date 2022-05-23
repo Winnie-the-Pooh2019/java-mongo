@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+    val coroutinesVersion = "1.6.1"
+
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-json")
@@ -25,6 +27,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
 
     implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.4")
     implementation("com.google.code.gson:gson:2.9.0")
