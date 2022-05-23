@@ -82,12 +82,12 @@ class OrderServiceImpl(
     override suspend fun getMedicinesInProgress(): List<Medicine> = withContext(Dispatchers.IO) {
         return@withContext orderRepository.findAllByStatus(OrderStatus.IN_PROGRESS).asSequence()
             .flatMap { it.medicines }
-            .map { it.medicine }.toList()
+            .map { it.medicine }.toSet().toList()
     }
 
     override suspend fun getMedicinesTechInProgress(): List<Technology> = withContext(Dispatchers.IO) {
         return@withContext orderRepository.findAllByStatus(OrderStatus.IN_PROGRESS).asSequence()
-            .flatMap { it.medicines }.mapNotNull { it.medicine.technology }.toList()
+            .flatMap { it.medicines }.mapNotNull { it.medicine.technology }.toSet().toList()
     }
 
     override suspend fun getFavouriteClientsByMeds(medicines: List<String>): List<Client> =
@@ -95,13 +95,13 @@ class OrderServiceImpl(
             return@withContext orderRepository.findAll()
                 .filter { it.medicines.any { med -> med.medicine.name in medicines } }.groupingBy { it.client }
                 .eachCount().entries.sortedBy { it.value }.reversed()
-                .associate { it.key to it.value }.entries.map { it.key }
+                .associate { it.key to it.value }.entries.map { it.key }.toSet().toList()
         }
 
     override suspend fun getFavouriteClientsByTypes(types: List<String>): List<Client> = withContext(Dispatchers.IO) {
         return@withContext orderRepository.findAll()
             .filter { it.medicines.any { med -> med.medicine.type.name in types } }.groupingBy { it.client }
             .eachCount().entries.sortedBy { it.value }.reversed()
-            .associate { it.key to it.value }.entries.map { it.key }
+            .associate { it.key to it.value }.entries.map { it.key }.toSet().toList()
     }
 }

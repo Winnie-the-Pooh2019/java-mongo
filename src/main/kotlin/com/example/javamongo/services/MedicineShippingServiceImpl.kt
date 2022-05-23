@@ -6,8 +6,10 @@ import com.example.javamongo.data.repos.MedicineShippingRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 import java.time.LocalDate
 
+@Service
 class MedicineShippingServiceImpl(
     @Autowired
     private val medicineShippingRepository: MedicineShippingRepository
@@ -23,6 +25,7 @@ class MedicineShippingServiceImpl(
                         else -> println()
                     }
                 }
+                println("5 QUERY DATE = $shipped")
                 shipped < LocalDate.now()
             } ?: false
         }.map { it.medicine }.toSet().toList()

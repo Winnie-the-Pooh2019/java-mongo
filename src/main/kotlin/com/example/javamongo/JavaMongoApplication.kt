@@ -2,6 +2,8 @@ package com.example.javamongo
 
 import com.example.javamongo.data.migration.Migration
 import com.example.javamongo.data.migration.Strategy
+import com.example.javamongo.services.MedicineService
+import com.example.javamongo.services.MedicineShippingService
 import com.example.javamongo.services.OrderService
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +22,11 @@ class JavaMongoApplication(
     @Autowired
     val environment: Environment,
     @Autowired
-    val orderService: OrderService
+    val orderService: OrderService,
+    @Autowired
+    val medicineService: MedicineService,
+    @Autowired
+    val medicineShippingService: MedicineShippingService
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
         when (Strategy.valueOf(environment.getProperty("migration.strategy")!!)) {
@@ -61,6 +67,26 @@ class JavaMongoApplication(
                 LocalDate.parse("2021-01-01"),
                 listOf("maz", "krem")
             ).forEach(::println)
+            println("Processing query 5")
+            medicineShippingService.getSoldOutMedicines().forEach(::println)
+            println("Processing query 6")
+            orderService.getOrdersInProgress().forEach(::println)
+            println("Processing query 7")
+            orderService.getMedicinesInProgress().forEach(::println)
+            println("Processing query 8.1")
+            orderService.getMedicinesTechInProgress().forEach(::println)
+            println("Processing query 8.2")
+            medicineService.getMedicinesTechByMeds(listOf("Zhopatushin")).forEach(::println)
+            println("Processing query 8.3")
+            medicineService.getMedicinesTechByTypes(listOf("maz")).forEach(::println)
+            println("Processing query 9")
+            medicineService.getTechnologyResourceByMed("Spasmolgon").forEach(::println)
+            println("Processing query 10.1")
+            orderService.getFavouriteClientsByMeds(listOf("Spasmolgon")).forEach(::println)
+            println("Processing query 10.2")
+            orderService.getFavouriteClientsByTypes(listOf("maz")).forEach(::println)
+
+            println("finished")
         }
     }
 }
