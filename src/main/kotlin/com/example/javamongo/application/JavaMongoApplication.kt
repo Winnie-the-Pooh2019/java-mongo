@@ -1,4 +1,4 @@
-package com.example.javamongo
+package com.example.javamongo.application
 
 import com.example.javamongo.data.migration.Migration
 import com.example.javamongo.data.migration.Strategy
@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.core.env.Environment
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import java.time.LocalDate
 
 @SpringBootApplication
 @EnableMongoRepositories
+@ComponentScan(value = ["com.example.javamongo"])
 class JavaMongoApplication(
     @Autowired
     val migration: Migration,
