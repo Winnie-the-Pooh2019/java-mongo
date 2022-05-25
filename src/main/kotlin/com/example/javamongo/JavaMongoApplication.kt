@@ -1,10 +1,10 @@
-package com.example.javamongo.application
+package com.example.javamongo
 
 import com.example.javamongo.data.migration.Migration
 import com.example.javamongo.data.migration.Strategy
-import com.example.javamongo.services.MedicineService
-import com.example.javamongo.services.MedicineShippingService
-import com.example.javamongo.services.OrderService
+import com.example.javamongo.services.interfaces.MedicineService
+import com.example.javamongo.services.interfaces.MedicineShippingService
+import com.example.javamongo.services.interfaces.OrderService
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
@@ -17,7 +17,6 @@ import java.time.LocalDate
 
 @SpringBootApplication
 @EnableMongoRepositories
-@ComponentScan(value = ["com.example.javamongo"])
 class JavaMongoApplication(
     @Autowired
     val migration: Migration,

@@ -1,4 +1,4 @@
-package com.example.javamongo.services
+package com.example.javamongo.services.interfaces
 
 import com.example.javamongo.data.entity.Client
 import com.example.javamongo.data.entity.Medicine
@@ -7,6 +7,10 @@ import com.example.javamongo.data.entity.ersaz.Technology
 import java.time.LocalDate
 
 interface OrderService {
+    suspend fun findById(id: String): Order
+
+    suspend fun findAll(): List<Order>
+
     //    1
     suspend fun getNotPickedClients(): List<Client>
 
@@ -38,11 +42,6 @@ interface OrderService {
 
 //    7
     suspend fun getMedicinesInProgress(): List<Medicine>
-
-//    8
-//    suspend fun getMedicinesTechByTypes(types: List<String>): List<Technology>
-//
-//    suspend fun getMedicinesTechByMeds(meds: List<String>): List<Technology>
 
     suspend fun getMedicinesTechInProgress(): List<Technology>
 

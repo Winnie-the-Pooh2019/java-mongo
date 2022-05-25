@@ -12,19 +12,19 @@ import java.io.File
 @Component
 class Migration(
     @Autowired
-    private val clientRepository: ClientRepository,
+    val clientRepository: ClientRepository,
     @Autowired
-    private val medicineRepository: MedicineRepository,
+    val medicineRepository: MedicineRepository,
     @Autowired
-    private val medicineShippingRepository: MedicineShippingRepository,
+    val medicineShippingRepository: MedicineShippingRepository,
     @Autowired
-    private val orderRepository: OrderRepository,
+    val orderRepository: OrderRepository,
     @Autowired
-    private val resourceRepository: ResourceRepository,
+    val resourceRepository: ResourceRepository,
     @Autowired
-    private val resourceShippingRepository: ResourceShippingRepository,
+    val resourceShippingRepository: ResourceShippingRepository,
     @Autowired
-    private val typeRepository: TypeRepository
+    val typeRepository: TypeRepository
 ) {
     @Value("classpath:data/")
     lateinit var resource: Resource
@@ -64,7 +64,7 @@ class Migration(
         false
     }
 
-    private fun getData(filePath: String) =
+    fun getData(filePath: String) =
         File("${resource.file.absolutePath}/$filePath.json").inputStream().bufferedReader().readText()
 
     fun flush() {
