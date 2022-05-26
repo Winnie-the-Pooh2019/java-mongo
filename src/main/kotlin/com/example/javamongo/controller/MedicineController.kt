@@ -1,5 +1,6 @@
 package com.example.javamongo.controller
 
+import com.example.javamongo.controller.dto.MedicineDto
 import com.example.javamongo.data.entity.Medicine
 import com.example.javamongo.services.interfaces.MedicineService
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,4 +12,4 @@ import org.springframework.web.bind.annotation.RequestMapping
 class MedicineController(
     @Autowired
     private val medicineService: MedicineService
-) : CommonController<Medicine>(medicineService, Medicine::class.java)
+) : CommonController<Medicine, MedicineDto>(medicineService, Medicine::class.java)

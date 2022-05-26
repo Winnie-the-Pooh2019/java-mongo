@@ -1,6 +1,7 @@
 package com.example.javamongo.data.entity
 
 import com.example.javamongo.controller.dto.OrderDto
+import com.example.javamongo.controller.dto.OrderMedicineDto
 import com.example.javamongo.controller.dto.UiDto
 import com.example.javamongo.data.entity.emuns.OrderStatus
 import com.example.javamongo.data.entity.ersaz.OrderMedicine
@@ -26,8 +27,16 @@ data class Order(
 ) : Entity {
     override fun toUi(): UiDto = OrderDto(
         id = id.toString(),
-        clientId = client.id.toString(),
+        clientSurname = client.lastName,
         datePicking = datePicked.toString(),
-        status = status.name
+        status = status.name,
+        medicines = medicines.map {
+            OrderMedicineDto(
+                medicineName = it.medicine.name,
+                amount = it.amount,
+                price = it.price,
+                it.status.name
+            )
+        }
     )
 }

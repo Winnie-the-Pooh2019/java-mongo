@@ -22,5 +22,5 @@ data class Client(
     val phone: String,
     val address: String
 ) : Entity {
-    override fun toUi(): UiDto = ClientDto(id.toString(), lastName, firstName, phone)
+    override fun toUi(): UiDto = ClientDto(id.toString(), lastName, firstName, patronymic, phone, address)
 }

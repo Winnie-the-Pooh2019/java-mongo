@@ -1,6 +1,8 @@
 package com.example.javamongo.data.entity
 
 import com.example.javamongo.controller.dto.MedicineDto
+import com.example.javamongo.controller.dto.ResourceTechDto
+import com.example.javamongo.controller.dto.TechnologyDto
 import com.example.javamongo.controller.dto.UiDto
 import com.example.javamongo.data.entity.emuns.IntervalEnum
 import com.example.javamongo.data.entity.ersaz.Technology
@@ -25,5 +27,19 @@ data class Medicine(
     val price: Double,
     val technology: Technology?
 ) : Entity {
-    override fun toUi(): UiDto = MedicineDto(id.toString(), name, type.name, price)
+    override fun toUi(): UiDto = MedicineDto(
+        id = id.toString(),
+        name = name,
+        criticalAmount = criticalAmount,
+        expiration = expiration.map { (key, value) -> key.name to value }.toMap(),
+        typeName = type.name,
+        price = price,
+        technology = if (technology != null) TechnologyDto(
+            description = technology.description,
+            prepareTime = technology.prepareTime.map { (key, value) -> key.name to value }.toMap(),
+            resources = technology.resources.map {
+                ResourceTechDto(it.resource.name, it.count)
+            }
+        ) else null
+    )
 }

@@ -1,5 +1,6 @@
 package com.example.javamongo.controller
 
+import com.example.javamongo.controller.dto.ResourceDto
 import com.example.javamongo.data.entity.Resource
 import com.example.javamongo.services.interfaces.ResourceService
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,4 +12,4 @@ import org.springframework.web.bind.annotation.RequestMapping
 class ResourceController(
     @Autowired
     private val resourceService: ResourceService
-) : CommonController<Resource>(resourceService, Resource::class.java)
+) : CommonController<Resource, ResourceDto>(resourceService, Resource::class.java)

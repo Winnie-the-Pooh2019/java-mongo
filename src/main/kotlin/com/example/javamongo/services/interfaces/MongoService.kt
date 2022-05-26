@@ -25,6 +25,16 @@ abstract class MongoService<T : Entity>(val repository: Repository<T>) {
         }
     }
 
+    suspend fun deleteAll(): Boolean = withContext(Dispatchers.IO) {
+        return@withContext try {
+            repository.deleteAll()
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
     suspend fun updateById(entity: T): Boolean = withContext(Dispatchers.IO) {
         return@withContext try {
             repository.save(entity)

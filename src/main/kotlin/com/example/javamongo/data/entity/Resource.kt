@@ -23,6 +23,8 @@ data class Resource(
     override fun toUi(): UiDto = ResourceDto(
         id = id.toString(),
         name = name,
-        price = price
+        price = price,
+        criticalAmount = criticalAmount,
+        expiration = expiration.map { (key, value) -> key.name to value }.toMap()
     )
 }

@@ -1,9 +1,23 @@
 package com.example.javamongo.controller.dto
 
+
 data class MedicineDto(
     val id: String,
     val name: String,
+    val criticalAmount: Int,
+    val expiration: Map<String, Int>,
     val typeName: String,
-    val price: Double
+    val price: Double,
+    val technology: TechnologyDto?
 ) : UiDto
 
+data class TechnologyDto(
+    val description: String,
+    val prepareTime: Map<String, Int>,
+    val resources: List<ResourceTechDto>
+)
+
+data class ResourceTechDto(
+    val resourceName: String,
+    val count: Int
+)

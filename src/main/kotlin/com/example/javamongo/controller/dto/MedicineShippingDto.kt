@@ -2,7 +2,7 @@ package com.example.javamongo.controller.dto
 
 data class MedicineShippingDto(
     val id: String,
-    val medicineName: String,
+    val medicine: MedDto,
     val price: Double,
     val amount: Int,
     val dateOrdered: String,
@@ -10,3 +10,7 @@ data class MedicineShippingDto(
     val status: String
 ) : UiDto
 
+data class MedDto(
+    val id: String,
+    val name: String
+)
