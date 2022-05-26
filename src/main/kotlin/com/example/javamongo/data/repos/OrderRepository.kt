@@ -2,11 +2,9 @@ package com.example.javamongo.data.repos
 
 import com.example.javamongo.data.entity.Order
 import com.example.javamongo.data.entity.emuns.OrderStatus
-import org.bson.types.ObjectId
-import org.springframework.data.mongodb.repository.MongoRepository
 import java.time.LocalDate
 
-interface OrderRepository : MongoRepository<Order, ObjectId> {
+interface OrderRepository : Repository<Order> {
 //    1
     fun findAllByDatePickedBeforeAndStatus(date: LocalDate, status: OrderStatus): List<Order>
 

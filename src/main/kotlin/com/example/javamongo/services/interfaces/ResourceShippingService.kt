@@ -1,10 +1,7 @@
 package com.example.javamongo.services.interfaces
 
 import com.example.javamongo.data.entity.ResourceShipping
-import java.util.ListResourceBundle
+import com.example.javamongo.data.repos.ResourceShippingRepository
 
-interface ResourceShippingService {
-    suspend fun findById(id: String): ResourceShipping
-
-    suspend fun findAll(): List<ResourceShipping>
-}
+abstract class ResourceShippingService(repository: ResourceShippingRepository) :
+    MongoService<ResourceShipping>(repository)

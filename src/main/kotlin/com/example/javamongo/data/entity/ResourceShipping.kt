@@ -1,5 +1,7 @@
 package com.example.javamongo.data.entity
 
+import com.example.javamongo.controller.dto.ResourceShippingDto
+import com.example.javamongo.controller.dto.UiDto
 import com.example.javamongo.data.entity.emuns.ShippingStatus
 import com.google.gson.annotations.SerializedName
 import org.bson.types.ObjectId
@@ -24,4 +26,14 @@ data class ResourceShipping(
     @SerializedName(value = "date_shipped")
     val dateShipped: LocalDate? = null,
     val status: ShippingStatus
-)
+) : Entity {
+    override fun toUi(): UiDto = ResourceShippingDto(
+        id = id.toString(),
+        resourceName = resource.name,
+        amount = amount,
+        price = price,
+        dateShipped = dateShipped.toString(),
+        dateOrdered = dateOrdered.toString(),
+        status = status.name
+    )
+}

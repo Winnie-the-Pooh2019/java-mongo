@@ -9,7 +9,6 @@ import com.example.javamongo.data.repos.OrderRepository
 import com.example.javamongo.services.interfaces.OrderService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -18,15 +17,7 @@ import java.time.LocalDate
 class OrderServiceImpl(
     @Autowired
     val orderRepository: OrderRepository
-) : OrderService {
-    override suspend fun findById(id: String): Order = withContext(Dispatchers.IO) {
-        return@withContext orderRepository.findById(ObjectId(id)).get()
-    }
-
-    override suspend fun findAll(): List<Order> = withContext(Dispatchers.IO) {
-        return@withContext orderRepository.findAll()
-    }
-
+) : OrderService(orderRepository) {
     //    1
     override suspend fun getNotPickedClients(): List<Client> = withContext(Dispatchers.IO) {
         orderRepository.findAllByDatePickedBeforeAndStatus(

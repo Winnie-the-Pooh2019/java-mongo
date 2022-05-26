@@ -1,5 +1,7 @@
 package com.example.javamongo.data.entity
 
+import com.example.javamongo.controller.dto.OrderDto
+import com.example.javamongo.controller.dto.UiDto
 import com.example.javamongo.data.entity.emuns.OrderStatus
 import com.example.javamongo.data.entity.ersaz.OrderMedicine
 import com.google.gson.annotations.SerializedName
@@ -21,4 +23,11 @@ data class Order(
     val datePicked: LocalDate,
     val medicines: List<OrderMedicine>,
     val status: OrderStatus
-)
+) : Entity {
+    override fun toUi(): UiDto = OrderDto(
+        id = id.toString(),
+        clientId = client.id.toString(),
+        datePicking = datePicked.toString(),
+        status = status.name
+    )
+}

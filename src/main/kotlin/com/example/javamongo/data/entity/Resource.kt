@@ -1,5 +1,7 @@
 package com.example.javamongo.data.entity
 
+import com.example.javamongo.controller.dto.ResourceDto
+import com.example.javamongo.controller.dto.UiDto
 import com.example.javamongo.data.entity.emuns.IntervalEnum
 import com.google.gson.annotations.SerializedName
 import org.bson.types.ObjectId
@@ -17,4 +19,10 @@ data class Resource(
     val criticalAmount: Int,
     val expiration: Map<IntervalEnum, Int>,
     val price: Double
-)
+) : Entity {
+    override fun toUi(): UiDto = ResourceDto(
+        id = id.toString(),
+        name = name,
+        price = price
+    )
+}

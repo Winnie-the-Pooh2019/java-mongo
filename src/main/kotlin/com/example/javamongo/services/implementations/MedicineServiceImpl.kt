@@ -1,13 +1,11 @@
 package com.example.javamongo.services.implementations
 
-import com.example.javamongo.data.entity.Medicine
 import com.example.javamongo.data.entity.ersaz.ResourceTechnology
 import com.example.javamongo.data.entity.ersaz.Technology
 import com.example.javamongo.data.repos.MedicineRepository
 import com.example.javamongo.services.interfaces.MedicineService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -15,15 +13,7 @@ import org.springframework.stereotype.Service
 class MedicineServiceImpl(
     @Autowired
     private val medicineRepository: MedicineRepository
-) : MedicineService {
-    override suspend fun findAll(): List<Medicine> = withContext(Dispatchers.IO) {
-        return@withContext medicineRepository.findAll()
-    }
-
-    override suspend fun findById(id: String): Medicine = withContext(Dispatchers.IO) {
-        return@withContext medicineRepository.findById(ObjectId(id)).get()
-    }
-
+) : MedicineService(medicineRepository) {
     override suspend fun getMedicinesTechByTypes(types: List<String>): List<Technology> = withContext(Dispatchers.IO) {
         return@withContext mutableSetOf<Technology>().apply {
             types.forEach { _ ->

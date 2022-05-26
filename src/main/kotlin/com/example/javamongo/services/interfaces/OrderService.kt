@@ -4,52 +4,46 @@ import com.example.javamongo.data.entity.Client
 import com.example.javamongo.data.entity.Medicine
 import com.example.javamongo.data.entity.Order
 import com.example.javamongo.data.entity.ersaz.Technology
+import com.example.javamongo.data.repos.OrderRepository
 import java.time.LocalDate
 
-interface OrderService {
-    suspend fun findById(id: String): Order
-
-    suspend fun findAll(): List<Order>
-
+abstract class OrderService(repository: OrderRepository) : MongoService<Order>(repository) {
     //    1
-    suspend fun getNotPickedClients(): List<Client>
+    abstract suspend fun getNotPickedClients(): List<Client>
 
     //    2
-    suspend fun getAwaitingClients(): List<Client>
+    abstract suspend fun getAwaitingClients(): List<Client>
 
-    suspend fun getAwaitingClientsByMedicineType(typeName: String): List<Client>
+    abstract suspend fun getAwaitingClientsByMedicineType(typeName: String): List<Client>
 
     //    3
-    suspend fun getMostPopularMedicines(): Map<Medicine, Int>
+    abstract suspend fun getMostPopularMedicines(): Map<Medicine, Int>
 
-    suspend fun getMostPopularMedicinesByType(typeName: String): Map<Medicine, Int>
+    abstract suspend fun getMostPopularMedicinesByType(typeName: String): Map<Medicine, Int>
 
     //    4
-    suspend fun getClientsInIntervalByMedicine(
+    abstract suspend fun getClientsInIntervalByMedicine(
         startDate: LocalDate,
         endDate: LocalDate,
         medicineName: String
     ): List<Client>
 
-    suspend fun getClientsInIntervalByTypes(
+    abstract suspend fun getClientsInIntervalByTypes(
         startDate: LocalDate,
         endDate: LocalDate,
         typeNames: List<String>
     ): List<Client>
 
 //    6
-    suspend fun getOrdersInProgress(): List<Order>
+    abstract suspend fun getOrdersInProgress(): List<Order>
 
 //    7
-    suspend fun getMedicinesInProgress(): List<Medicine>
+    abstract suspend fun getMedicinesInProgress(): List<Medicine>
 
-    suspend fun getMedicinesTechInProgress(): List<Technology>
-
-//    9
-//    suspend fun getTechnologyResourceByMed(medicineName: String): List<ResourceTechnology>
+    abstract suspend fun getMedicinesTechInProgress(): List<Technology>
 
 //    10
-    suspend fun getFavouriteClientsByMeds(medicines: List<String>): List<Client>
+    abstract suspend fun getFavouriteClientsByMeds(medicines: List<String>): List<Client>
 
-    suspend fun getFavouriteClientsByTypes(types: List<String>): List<Client>
+    abstract suspend fun getFavouriteClientsByTypes(types: List<String>): List<Client>
 }

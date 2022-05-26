@@ -2,11 +2,8 @@ package com.example.javamongo.services.interfaces
 
 import com.example.javamongo.data.entity.Medicine
 import com.example.javamongo.data.entity.MedicineShipping
+import com.example.javamongo.data.repos.MedicineShippingRepository
 
-interface MedicineShippingService {
-    suspend fun findAll(): List<MedicineShipping>
-
-    suspend fun findById(id: String): MedicineShipping
-
-    suspend fun getSoldOutMedicines(): List<Medicine>
+abstract class MedicineShippingService(repository: MedicineShippingRepository) : MongoService<MedicineShipping>(repository) {
+    abstract suspend fun getSoldOutMedicines(): List<Medicine>
 }

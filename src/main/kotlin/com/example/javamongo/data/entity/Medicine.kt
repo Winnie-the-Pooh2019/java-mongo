@@ -1,5 +1,7 @@
 package com.example.javamongo.data.entity
 
+import com.example.javamongo.controller.dto.MedicineDto
+import com.example.javamongo.controller.dto.UiDto
 import com.example.javamongo.data.entity.emuns.IntervalEnum
 import com.example.javamongo.data.entity.ersaz.Technology
 import com.google.gson.annotations.SerializedName
@@ -22,4 +24,6 @@ data class Medicine(
     val type: Type,
     val price: Double,
     val technology: Technology?
-)
+) : Entity {
+    override fun toUi(): UiDto = MedicineDto(id.toString(), name, type.name, price)
+}

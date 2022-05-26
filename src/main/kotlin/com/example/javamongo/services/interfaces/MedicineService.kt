@@ -3,18 +3,15 @@ package com.example.javamongo.services.interfaces
 import com.example.javamongo.data.entity.Medicine
 import com.example.javamongo.data.entity.ersaz.ResourceTechnology
 import com.example.javamongo.data.entity.ersaz.Technology
+import com.example.javamongo.data.repos.MedicineRepository
 
-interface MedicineService {
-    suspend fun findAll(): List<Medicine>
-
-    suspend fun findById(id: String): Medicine
+abstract class MedicineService(repository: MedicineRepository) : MongoService<Medicine>(repository) {
+//    8
+    abstract suspend fun getMedicinesTechByTypes(types: List<String>): List<Technology>
 
 //    8
-    suspend fun getMedicinesTechByTypes(types: List<String>): List<Technology>
-
-//    8
-    suspend fun getMedicinesTechByMeds(meds: List<String>): List<Technology>
+    abstract suspend fun getMedicinesTechByMeds(meds: List<String>): List<Technology>
 
 //    9
-    suspend fun getTechnologyResourceByMed(medicineName: String): List<ResourceTechnology>
+    abstract suspend fun getTechnologyResourceByMed(medicineName: String): List<ResourceTechnology>
 }

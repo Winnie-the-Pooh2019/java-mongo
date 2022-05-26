@@ -1,13 +1,7 @@
 package com.example.javamongo.services.interfaces
 
 import com.example.javamongo.data.entity.Client
+import com.example.javamongo.data.repos.ClientRepository
 
-interface ClientService {
-    suspend fun findAll(): List<Client>
-
-    suspend fun findById(id: String): Client
-
-    suspend fun deleteById(id: String): Boolean
-
-    suspend fun updateById(client: Client): Boolean
+abstract class ClientService(repository: ClientRepository) : MongoService<Client>(repository) {
 }

@@ -1,5 +1,7 @@
 package com.example.javamongo.data.entity
 
+import com.example.javamongo.controller.dto.ClientDto
+import com.example.javamongo.controller.dto.UiDto
 import com.google.gson.annotations.SerializedName
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
@@ -19,4 +21,6 @@ data class Client(
     val patronymic: String? = null,
     val phone: String,
     val address: String
-)
+) : Entity {
+    override fun toUi(): UiDto = ClientDto(id.toString(), lastName, firstName, phone)
+}
