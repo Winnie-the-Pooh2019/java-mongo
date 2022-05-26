@@ -6,7 +6,7 @@ data class MedicineDto(
     val name: String,
     val criticalAmount: Int,
     val expiration: Map<String, Int>,
-    val typeName: String,
+    val typeName: TypeDto,
     val price: Double,
     val technology: TechnologyDto?
 ) : UiDto
@@ -18,6 +18,6 @@ data class TechnologyDto(
 )
 
 data class ResourceTechDto(
-    val resourceName: String,
+    val resource: ResDto,
     val count: Int
 )

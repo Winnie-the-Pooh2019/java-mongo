@@ -11,7 +11,7 @@ import org.springframework.lang.Nullable
 data class Type(
     @Id
     @Nullable
-    val id: ObjectId,
+    override val id: ObjectId,
     val name: String,
     val attributes: Map<String, String>? = null
 ) : Entity {

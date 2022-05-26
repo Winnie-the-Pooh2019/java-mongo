@@ -1,9 +1,6 @@
 package com.example.javamongo.data.entity
 
-import com.example.javamongo.controller.dto.MedicineDto
-import com.example.javamongo.controller.dto.ResourceTechDto
-import com.example.javamongo.controller.dto.TechnologyDto
-import com.example.javamongo.controller.dto.UiDto
+import com.example.javamongo.controller.dto.*
 import com.example.javamongo.data.entity.emuns.IntervalEnum
 import com.example.javamongo.data.entity.ersaz.Technology
 import com.google.gson.annotations.SerializedName
@@ -16,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Field
 @Document(collection = "medicines")
 data class Medicine(
     @Id
-    val id: ObjectId,
+    override val id: ObjectId,
     val name: String,
     @Field(name = "critical_amount")
     @SerializedName(value = "critical_amount")
@@ -32,13 +29,13 @@ data class Medicine(
         name = name,
         criticalAmount = criticalAmount,
         expiration = expiration.map { (key, value) -> key.name to value }.toMap(),
-        typeName = type.name,
+        typeName = TypeDto(type.id.toString(), type.name),
         price = price,
         technology = if (technology != null) TechnologyDto(
             description = technology.description,
             prepareTime = technology.prepareTime.map { (key, value) -> key.name to value }.toMap(),
             resources = technology.resources.map {
-                ResourceTechDto(it.resource.name, it.count)
+                ResourceTechDto(ResDto(it.resource.id.toString(), it.resource.name), it.count)
             }
         ) else null
     )

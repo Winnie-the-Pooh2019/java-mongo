@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Field
 @Document("clients")
 data class Client(
     @Id
-    val id: ObjectId = ObjectId(),
+    override val id: ObjectId = ObjectId(),
     @Field(value = "last_name")
     @SerializedName(value = "last_name")
     val lastName: String,

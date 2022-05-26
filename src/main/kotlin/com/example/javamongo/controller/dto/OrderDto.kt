@@ -3,13 +3,19 @@ package com.example.javamongo.controller.dto
 
 data class OrderDto(
     val id: String,
-    val clientSurname: String,
+    val clientSurname: CliDto,
     val datePicking: String,
     val status: String,
     val medicines: List<OrderMedicineDto>
 ) : UiDto
 
+data class CliDto(
+    val id: String,
+    val lastName: String
+)
+
 data class OrderMedicineDto(
+    val medicineId: String,
     val medicineName: String,
     val amount: Int,
     val price: Double,

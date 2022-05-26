@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.bson.types.ObjectId
 
-abstract class MongoService<T : Entity>(val repository: Repository<T>) {
+abstract class MongoService<T : Entity>(private val repository: Repository<T>) {
     suspend fun findAll(): List<T> = withContext(Dispatchers.IO) {
         return@withContext repository.findAll()
     }
@@ -35,9 +35,27 @@ abstract class MongoService<T : Entity>(val repository: Repository<T>) {
         }
     }
 
-    suspend fun updateById(entity: T): Boolean = withContext(Dispatchers.IO) {
+    suspend fun insert(entity: T): Boolean = withContext(Dispatchers.IO) {
         return@withContext try {
-            repository.save(entity)
+            if (repository.findById(entity.id).isPresent)
+                throw IllegalArgumentException()
+            else
+                repository.save(entity)
+
+            true
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    suspend fun update(entity: T): Boolean = withContext(Dispatchers.IO) {
+        return@withContext try {
+            if (repository.findById(entity.id).isEmpty)
+                throw IllegalArgumentException()
+            else
+                repository.save(entity)
+
             true
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()

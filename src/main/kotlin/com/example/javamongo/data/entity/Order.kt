@@ -1,5 +1,6 @@
 package com.example.javamongo.data.entity
 
+import com.example.javamongo.controller.dto.CliDto
 import com.example.javamongo.controller.dto.OrderDto
 import com.example.javamongo.controller.dto.OrderMedicineDto
 import com.example.javamongo.controller.dto.UiDto
@@ -16,7 +17,7 @@ import java.time.LocalDate
 @Document(collection = "orders")
 data class Order(
     @Id
-    val id: ObjectId = ObjectId(),
+    override val id: ObjectId = ObjectId(),
     @DBRef
     val client: Client,
     @Field(name = "date_picked")
@@ -27,7 +28,7 @@ data class Order(
 ) : Entity {
     override fun toUi(): UiDto = OrderDto(
         id = id.toString(),
-        clientSurname = client.lastName,
+        clientSurname = CliDto(client.id.toString(), client.lastName),
         datePicking = datePicked.toString(),
         status = status.name,
         medicines = medicines.map {
@@ -35,7 +36,8 @@ data class Order(
                 medicineName = it.medicine.name,
                 amount = it.amount,
                 price = it.price,
-                it.status.name
+                status = it.status.name,
+                medicineId = it.medicine.id.toString()
             )
         }
     )

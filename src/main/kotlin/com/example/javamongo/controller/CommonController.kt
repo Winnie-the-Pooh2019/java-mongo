@@ -7,11 +7,12 @@ import kotlinx.coroutines.runBlocking
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 
-abstract class CommonController<T : Entity, U: UiDto>(private val service: MongoService<T>, private val clazz: Class<T>) {
+abstract class CommonController<T : Entity, U: UiDto>(protected val service: MongoService<T>, protected val clazz: Class<T>) {
     @GetMapping
     fun getAll(model: Model): String {
         val objects = runBlocking {
@@ -50,10 +51,17 @@ abstract class CommonController<T : Entity, U: UiDto>(private val service: Mongo
 
     @PutMapping("/save")
     fun insert(@RequestBody ui: U): String {
-        runBlocking {
-            service
-        }
+        runBlocking { service.insert(ui.toEntity()) }
 
         return "redirect:/${clazz.simpleName.lowercase()}"
     }
+
+    @PatchMapping("/save")
+    fun update(@RequestBody ui: U): String {
+        runBlocking { service.update(ui.toEntity()) }
+
+        return "redirect:/${clazz.simpleName.lowercase()}"
+    }
+
+    protected abstract suspend fun U.toEntity(): T
 }

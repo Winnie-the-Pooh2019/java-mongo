@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Field
 @Document(collection = "resources")
 data class Resource(
     @Id
-    val id: ObjectId,
+    override val id: ObjectId,
     val name: String,
     @Field(name = "critical_amount")
     @SerializedName(value = "critical_amount")

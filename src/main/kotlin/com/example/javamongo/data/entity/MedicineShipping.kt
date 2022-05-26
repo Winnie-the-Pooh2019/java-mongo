@@ -15,7 +15,7 @@ import java.time.LocalDate
 @Document(collection = "medicine_shipping")
 data class MedicineShipping(
     @Id
-    val id: ObjectId,
+    override val id: ObjectId,
     @DBRef
     val medicine: Medicine,
     val amount: Int,
