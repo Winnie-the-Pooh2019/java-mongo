@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 
-abstract class CommonController<T : Entity, U: UiDto>(protected val service: MongoService<T>, protected val clazz: Class<T>) {
+abstract class CommonController<T : Entity, U: UiDto>(private val service: MongoService<T>, protected val clazz: Class<T>) {
     @GetMapping
     fun getAll(model: Model): String {
         val objects = runBlocking {

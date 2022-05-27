@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"/>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Clients</title>
 </head>
 <body>
-
+<table>
+    <th:block th:each="client : ${clients}">
+        <tr>
+            <td th:text="${client.id}">...</td>
+            <td th:text="${client.lastName}">...</td>
+        </tr>
+        <tr>
+            <td colspan="2" th:text="${client.address}">...</td>
+        </tr>
+    </th:block>
+</table>
 </body>
 </html>
