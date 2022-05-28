@@ -28,12 +28,17 @@ data class Medicine(
         id = id.toString(),
         name = name,
         criticalAmount = criticalAmount,
-        expiration = expiration.map { (key, value) -> key.name to value }.toMap(),
+        expiration = IntervalEnum.values()
+            .map { it.ordinal to if (it in expiration.keys) expiration[it]!!.toString() else "0" }.sortedBy { it.first }
+            .joinToString(".") { it.second },
         typeName = TypeDto(type.id.toString(), type.name),
         price = price,
         technology = if (technology != null) TechnologyDto(
             description = technology.description,
-            prepareTime = technology.prepareTime.map { (key, value) -> key.name to value }.toMap(),
+            prepareTime = IntervalEnum.values()
+                .map { it.ordinal to if (it in technology.prepareTime.keys) technology.prepareTime[it]!!.toString() else "0" }
+                .sortedBy { it.first }
+                .joinToString(".") { it.second },
             resources = technology.resources.map {
                 ResourceTechDto(ResDto(it.resource.id.toString(), it.resource.name), it.count)
             }
