@@ -105,11 +105,16 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label" for=phone_field>Type Name</label>
+            <label class="control-label" for="typeSelector">Type Name</label>
             <div>
-                <input type="text"
-                       class="form-control" id="phone_field" th:value="${medicine.typeName}"
-                       th:field="*{typeName.name}">
+                <div class="modal-body" >
+                    <select th:field="*{typeId}" id="typeSelector">
+                        <option th:each="type : ${types}" class="res_select" th:value="${type.id}" th:text="${type.name}"></option>
+                    </select>
+                </div>
+<!--                <input type="text"-->
+<!--                       class="form-control" id="phone_field" th:value="${medicine.typeName}"-->
+<!--                       th:field="*{typeName.name}">-->
             </div>
         </div>
         <div class="form-group">
@@ -152,11 +157,10 @@
             <label class="control-label" for="expiration">expiration time
                 (years.months.days.hours.minutes.seconds)</label>
             <div>
-                <input type="text" disabled required class="form-control" id="expiration"
+                <input type="text" required class="form-control" id="expiration"
                        th:value="${medicine.expiration}"
                        th:field="*{expiration}">
             </div>
-            <button class="btn btn-warning" type="button" id="flush_exp" onclick="flush('expiration')">Flush</button>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCentered">
                 Launch centered demo modal
             </button>
@@ -168,9 +172,8 @@
                 <label class="control-label" for="tech_desc">Description (leave empty if you don't want to add any
                     tech)</label>
                 <div>
-                    <input type="text" required class="form-control" id="tech_desc"
-                           th:value="${medicine.technology.description}"
-                           th:field="*{technology.description}">
+                    <input type="text" class="form-control" id="tech_desc"
+                           th:field="*{description}">
                 </div>
             </div>
             <div class="form-group">
@@ -205,11 +208,10 @@
                 <label class="control-label" for="tech_time">Prepare time
                     (years.months.days.hours.minutes.seconds)</label>
                 <div>
-                    <input type="text" required disabled class="form-control" id="tech_time"
-                           th:value="${medicine.technology.prepareTime}"
-                           th:field="*{technology.prepareTime}">
+                    <input type="text" class="form-control" id="tech_time"
+                           th:value="${medicine.prepareTime}"
+                           th:field="*{prepareTime}">
                 </div>
-                <button class="btn btn-warning" type="button" id="flush_prep" onclick="flush('tech_time')">Flush</button>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#prepModal">
                     Launch centered demo modal
                 </button>
@@ -248,10 +250,10 @@
 
                 <label class="control-label" for="tech_resources">List of needed ingredients</label>
                 <div>
-                    <input type="text" required class="form-control" id="tech_resources"
-                           th:value="${medicine.technology.resources}"
-                           th:field="*{technology.prepareTime}">
-
+                    <input type="text" class="form-control" id="tech_resources"
+                           th:field="*{resources}">
+<!--                           th:text="${medicine.technology.resources}"-->
+                    <button class="btn btn-warning" type="button" id="flush_res" onclick="flush('tech_resources')">Flush</button>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ingredientsModal">
                         Launch centered demo modal
                     </button>

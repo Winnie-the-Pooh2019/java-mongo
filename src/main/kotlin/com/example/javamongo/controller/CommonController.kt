@@ -54,7 +54,6 @@ abstract class CommonController<T : Entity, U: UiDto>(protected val service: Mon
 
     @PutMapping("/save")
     open fun insert(@ModelAttribute ui: U): String {
-        println("$ui")
         println("patro == null? ${
             if (ui is ClientDto)
                 ui.patronymic == null

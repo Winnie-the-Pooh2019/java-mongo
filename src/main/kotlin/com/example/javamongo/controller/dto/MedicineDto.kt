@@ -6,15 +6,18 @@ data class MedicineDto(
     val name: String,
     val criticalAmount: Int,
     val expiration: String,
-    val typeName: TypeDto,
+    val typeName: String = "",
+    val typeId: String,
     val price: Double,
-    val technology: TechnologyDto?
+    val description: String?,
+    val prepareTime: String?,
+    val resources: String?
 ) : UiDto
 
 data class TechnologyDto(
     val description: String,
     val prepareTime: String,
-    val resources: List<ResourceTechDto>
+    val resources: String
 )
 
 data class ResourceTechDto(

@@ -1,7 +1,7 @@
 package com.example.javamongo.controller
 
 import com.example.javamongo.controller.dto.MedicineDto
-import com.example.javamongo.controller.dto.ResourceDto
+import com.example.javamongo.controller.dto.ResourceTechDto
 import com.example.javamongo.data.entity.Medicine
 import com.example.javamongo.data.entity.emuns.IntervalEnum
 import com.example.javamongo.data.entity.ersaz.ResourceTechnology
@@ -9,6 +9,7 @@ import com.example.javamongo.data.entity.ersaz.Technology
 import com.example.javamongo.services.interfaces.MedicineService
 import com.example.javamongo.services.interfaces.ResourceService
 import com.example.javamongo.services.interfaces.TypeService
+import com.google.gson.Gson
 import kotlinx.coroutines.runBlocking
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -40,41 +41,23 @@ class MedicineController(
         return "medicine/medicine"
     }
 
-    override fun insert(ui: MedicineDto): String {
-        val newUi = MedicineDto(
-            ui.id,
-            ui.name,
-            ui.criticalAmount,
-            ui.expiration,
-            ui.typeName,
-            ui.price,
-            if (ui.technology != null && ui.technology.description.isEmpty())
-                null
-            else ui.technology
-        )
-
-        return super.insert(newUi)
-    }
-
-    override fun update(ui: MedicineDto): String {
-        return insert(ui)
-    }
-
     override suspend fun MedicineDto.toEntity(): Medicine = Medicine(
         id = ObjectId(this.id),
         name = this.name,
         criticalAmount = this.criticalAmount,
         expiration = this.expiration.split('.').mapIndexed { index, s -> IntervalEnum.values()[index] to s.toInt() }
             .filter { it.second > 0 }.toMap(),
-        type = typeService.findById(this.id),
+        type = typeService.findById(typeId),
         price = this.price,
-        technology = if (this.technology != null)
+        technology = if (!this.description.isNullOrBlank() && !this.prepareTime.isNullOrBlank()&& !this.resources.isNullOrBlank())
             Technology(
-                this.technology.description,
-                this.technology.prepareTime.split('.')
+                this.description,
+                this.prepareTime.split('.')
                     .mapIndexed { index, s -> IntervalEnum.values()[index] to s.toInt() }.filter { it.second > 0 }
                     .toMap(),
-                this.technology.resources.map {
+                this.resources.let {
+                    Gson().fromJson(it, Array<ResourceTechDto>::class.java)
+                }.map {
                     ResourceTechnology(resourceService.findById(it.resource.id), it.count)
                 }
             ) else null

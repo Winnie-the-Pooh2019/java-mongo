@@ -3,6 +3,7 @@ package com.example.javamongo.data.entity
 import com.example.javamongo.controller.dto.*
 import com.example.javamongo.data.entity.emuns.IntervalEnum
 import com.example.javamongo.data.entity.ersaz.Technology
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
@@ -31,17 +32,16 @@ data class Medicine(
         expiration = IntervalEnum.values()
             .map { it.ordinal to if (it in expiration.keys) expiration[it]!!.toString() else "0" }.sortedBy { it.first }
             .joinToString(".") { it.second },
-        typeName = TypeDto(type.id.toString(), type.name),
+        typeName = type.name,
+        typeId = type.id.toString(),
         price = price,
-        technology = if (technology != null) TechnologyDto(
-            description = technology.description,
-            prepareTime = IntervalEnum.values()
-                .map { it.ordinal to if (it in technology.prepareTime.keys) technology.prepareTime[it]!!.toString() else "0" }
-                .sortedBy { it.first }
-                .joinToString(".") { it.second },
-            resources = technology.resources.map {
-                ResourceTechDto(ResDto(it.resource.id.toString(), it.resource.name), it.count)
-            }
-        ) else null
+        description = technology?.description,
+        prepareTime = technology?.let { IntervalEnum.values()
+            .map { it.ordinal to if (it in technology.prepareTime.keys) technology.prepareTime[it]!!.toString() else "0" }
+            .sortedBy { it.first }
+            .joinToString(".") { it.second } },
+        resources = technology?.let { Gson().toJson(technology.resources.map {
+            ResourceTechDto(ResDto(it.resource.id.toString(), it.resource.name), it.count)
+        }.toTypedArray(), Array<ResourceTechDto>::class.java) }
     )
 }
