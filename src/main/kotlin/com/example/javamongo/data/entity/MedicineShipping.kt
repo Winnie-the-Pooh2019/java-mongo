@@ -17,7 +17,7 @@ data class MedicineShipping(
     @Id
     override val id: ObjectId,
     @DBRef
-    val medicine: Medicine,
+    val medicine: Medicine?,
     val amount: Int,
     val price: Double,
     @Field(name = "date_ordered")
@@ -30,7 +30,7 @@ data class MedicineShipping(
 ) : Entity {
     override fun toUi(): UiDto = MedicineShippingDto(
         id = id.toString(),
-        medicine = MedDto(medicine.id.toString(), medicine.name),
+        medicine = MedDto(medicine?.id.toString(), medicine?.name ?: ""),
         price = price,
         amount = amount,
         dateOrdered = dateOrdered.toString(),

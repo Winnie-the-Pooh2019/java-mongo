@@ -17,7 +17,7 @@ data class ResourceShipping(
     @Id
     override val id: ObjectId,
     @DBRef
-    val resource: Resource,
+    val resource: Resource?,
     val amount: Int,
     val price: Double,
     @Field(name = "date_ordered")
@@ -30,7 +30,7 @@ data class ResourceShipping(
 ) : Entity {
     override fun toUi(): UiDto = ResourceShippingDto(
         id = id.toString(),
-        resource = ResDto(resource.id.toString(), resource.name),
+        resource = ResDto(resource?.id.toString(), resource?.name ?: ""),
         amount = amount,
         price = price,
         dateShipped = dateShipped.toString(),

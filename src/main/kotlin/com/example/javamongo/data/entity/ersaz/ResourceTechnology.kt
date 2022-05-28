@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef
 
 data class ResourceTechnology(
     @DBRef
-    val resource: Resource,
+    val resource: Resource?,
     val count: Int
 )

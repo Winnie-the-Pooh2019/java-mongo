@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef
 
 data class OrderMedicine(
     @DBRef
-    val medicine: Medicine,
+    val medicine: Medicine?,
     val amount: Int,
     val price: Double,
     val status: OrderMedicineStatus

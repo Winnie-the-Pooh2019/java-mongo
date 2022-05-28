@@ -39,7 +39,7 @@ abstract class CommonController<T : Entity, U: UiDto>(protected val service: Mon
     }
 
     @DeleteMapping("/delete")
-    fun delete(@RequestParam(name = "id", required = false) id: String?, model: Model): String {
+    open fun delete(@RequestParam(name = "id", required = false) id: String?, model: Model): String {
         runBlocking {
             if (id == null)
                 service.deleteAll()

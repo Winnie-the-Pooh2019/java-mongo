@@ -27,6 +27,15 @@ class MedicineController(
     @Autowired
     private val resourceService: ResourceService
 ) : CommonController<Medicine, MedicineDto>(medicineService, Medicine::class.java) {
+    override fun delete(id: String?, model: Model): String {
+        if (id != null)
+            runBlocking {
+                val med = service.findById(id)
+
+            }
+        return super.delete(id, model)
+    }
+
     override fun create(model: Model): String {
         runBlocking {
             val resources = resourceService.findAll().map { it.toUi() }
@@ -63,7 +72,7 @@ class MedicineController(
             .filter { it.second > 0 }.toMap(),
         type = typeService.findById(typeId),
         price = this.price,
-        technology = if (!this.description.isNullOrBlank() && !this.prepareTime.isNullOrBlank()&& !this.resources.isNullOrBlank())
+        technology = if (!this.description.isNullOrBlank() && !this.prepareTime.isNullOrBlank() && !this.resources.isNullOrBlank())
             Technology(
                 this.description,
                 this.prepareTime.split('.')

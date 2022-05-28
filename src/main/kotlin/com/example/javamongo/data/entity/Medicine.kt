@@ -41,7 +41,7 @@ data class Medicine(
             .sortedBy { it.first }
             .joinToString(".") { it.second } },
         resources = technology?.let { Gson().toJson(technology.resources.map {
-            ResourceTechDto(ResDto(it.resource.id.toString(), it.resource.name), it.count)
+            ResourceTechDto(ResDto(it.resource?.id.toString(), it.resource?.name ?: ""), it.count)
         }.toTypedArray(), Array<ResourceTechDto>::class.java) }
     )
 }
