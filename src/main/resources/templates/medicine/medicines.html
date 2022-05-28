@@ -41,7 +41,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th>#</th>
             <th>Id</th>
             <th>Name</th>
             <th>Price</th>
@@ -49,9 +48,8 @@
             <th>Edit</th>
         </tr>
         </thead>
-        <tbody th:each="medicine: ${medicines}" th:with="counter=1">
+        <tbody th:each="medicine: ${medicines}" th:with="counter=0">
         <tr>
-            <th scope="row" th:text="${counter}" th:with="counter = ${counter + 1}"></th>
             <td th:text="${medicine.id}">Mark</td>
             <td th:text="${medicine.name}">Otto</td>
             <td th:text="${medicine.price}">Otto</td>
@@ -83,9 +81,9 @@
                 </div>
             </td>
             <td>
-                <form th:method="post" th:action="@{/medicine/byId(id=${medicine.id})}">
+                <a th:href="@{/medicine/byId(id=${medicine.id})}">
                     <button type="submit" class="btn btn-primary">View</button>
-                </form>
+                </a>
             </td>
         </tr>
         </tbody>

@@ -14,12 +14,6 @@ data class MedicineDto(
     val resources: String?
 ) : UiDto
 
-data class TechnologyDto(
-    val description: String,
-    val prepareTime: String,
-    val resources: String
-)
-
 data class ResourceTechDto(
     val resource: ResDto,
     val count: Int

@@ -21,7 +21,7 @@ abstract class CommonController<T : Entity, U: UiDto>(protected val service: Mon
         return "$className/${className}s"
     }
 
-    @PostMapping("/byId")
+    @GetMapping("/byId")
     open fun getSingle(@RequestParam(name = "id", required = true) id: String, model: Model): String {
         val obj = runBlocking {
             service.findById(id).toUi()
@@ -41,12 +41,12 @@ abstract class CommonController<T : Entity, U: UiDto>(protected val service: Mon
 
     @DeleteMapping("/delete")
     fun delete(@RequestParam(name = "id", required = false) id: String?, model: Model): String {
-//        runBlocking {
-//            if (id == null)
-//                service.deleteAll()
-//            else
-//                service.deleteById(id)
-//        }
+        runBlocking {
+            if (id == null)
+                service.deleteAll()
+            else
+                service.deleteById(id)
+        }
         println("DELETING DOCUMENT")
 
         return "redirect:/${clazz.simpleName.lowercase()}"

@@ -100,7 +100,7 @@
         <div class="form-group">
             <label class="control-label" for="first_name_field">Critical amount</label>
             <div>
-                <input type="text" required class="form-control" id="first_name_field"
+                <input pattern="^[0-9]+$" title="number format" type="text" required class="form-control" id="first_name_field"
                        th:value="${medicine.criticalAmount}" th:field="*{criticalAmount}">
             </div>
         </div>
@@ -108,7 +108,7 @@
             <label class="control-label" for="typeSelector">Type Name</label>
             <div>
                 <div class="modal-body" >
-                    <select th:field="*{typeId}" id="typeSelector">
+                    <select th:field="*{typeId}" id="typeSelector" class="form-select">
                         <option th:each="type : ${types}" class="res_select" th:value="${type.id}" th:text="${type.name}"></option>
                     </select>
                 </div>
@@ -120,7 +120,7 @@
         <div class="form-group">
             <label class="control-label" for="price">Price</label>
             <div>
-                <input type="text" required class="form-control" id="price" th:value="${medicine.price}"
+                <input pattern="^[0-9]+(\.[0-9]+)*$" title="number format" type="text" required class="form-control" id="price" th:value="${medicine.price}"
                        th:field="*{price}">
             </div>
         </div>
@@ -157,7 +157,7 @@
             <label class="control-label" for="expiration">expiration time
                 (years.months.days.hours.minutes.seconds)</label>
             <div>
-                <input type="text" required class="form-control" id="expiration"
+                <input readonly type="text" required class="form-control" id="expiration"
                        th:value="${medicine.expiration}"
                        th:field="*{expiration}">
             </div>
@@ -208,7 +208,7 @@
                 <label class="control-label" for="tech_time">Prepare time
                     (years.months.days.hours.minutes.seconds)</label>
                 <div>
-                    <input type="text" class="form-control" id="tech_time"
+                    <input readonly type="text" class="form-control" id="tech_time"
                            th:value="${medicine.prepareTime}"
                            th:field="*{prepareTime}">
                 </div>
@@ -250,7 +250,7 @@
 
                 <label class="control-label" for="tech_resources">List of needed ingredients</label>
                 <div>
-                    <input type="text" class="form-control" id="tech_resources"
+                    <input readonly type="text" class="form-control" id="tech_resources"
                            th:field="*{resources}">
 <!--                           th:text="${medicine.technology.resources}"-->
                     <button class="btn btn-warning" type="button" id="flush_res" onclick="flush('tech_resources')">Flush</button>
