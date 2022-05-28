@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.context.annotation.ComponentScan
 import org.springframework.core.env.Environment
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import java.time.LocalDate
@@ -30,6 +29,7 @@ class JavaMongoApplication(
     val medicineShippingService: MedicineShippingService
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
+//        runBlocking { medicineShippingService.findAll().forEach(::println) }
         when (Strategy.valueOf(environment.getProperty("migration.strategy")!!)) {
             Strategy.NONE -> println("No migration ... skipping")
             Strategy.SOFT -> {

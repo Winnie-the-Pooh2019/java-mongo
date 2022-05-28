@@ -9,16 +9,16 @@ class MainController {
     @GetMapping
     fun getMain(model: Model): String {
         val map = mutableMapOf(
-            "Clients" to "clients",
-            "Medicine Shipping" to "medicine_shipping",
-            "Medicines" to "medicines",
-            "Orders" to "orders",
-            "Resource Shipping" to "resource_shipping",
-            "Resources" to "resources",
-            "Types" to "types"
+            "Clients" to "client",
+            "Medicine Shipping" to "medicineshipping",
+            "Medicines" to "medicine",
+            "Orders" to "order",
+            "Resource Shipping" to "resourceshipping",
+            "Resources" to "resource",
+            "Types" to "type"
         )
 
-        model.addAttribute("pages", map)
+        model.addAttribute("map", map)
 
         return "main"
     }

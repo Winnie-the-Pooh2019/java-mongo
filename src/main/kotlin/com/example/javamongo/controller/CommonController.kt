@@ -26,17 +26,16 @@ abstract class CommonController<T : Entity, U: UiDto>(protected val service: Mon
         val obj = runBlocking {
             service.findById(id).toUi()
         }
-        println("patro == null? ${
-            if (obj is ClientDto)
-                (obj.patronymic == null).toString()
-            else
-                "skip"
-        }")
         val className = clazz.simpleName.lowercase()
         println(className)
         model.addAttribute(className, obj)
 
         return "$className/$className"
+    }
+
+    @GetMapping("/create")
+    open fun create(model: Model): String {
+        return "${clazz.simpleName.lowercase()}/${clazz.simpleName.lowercase()}_create"
     }
 
     @DeleteMapping("/delete")

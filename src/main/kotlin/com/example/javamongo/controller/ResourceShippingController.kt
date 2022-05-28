@@ -13,7 +13,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Controller
-@RequestMapping("resource-shipping")
+@RequestMapping("resourceshipping")
 class ResourceShippingController(
     @Autowired
     resourceShippingService: ResourceShippingService,

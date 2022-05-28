@@ -27,6 +27,20 @@ class MedicineController(
     @Autowired
     private val resourceService: ResourceService
 ) : CommonController<Medicine, MedicineDto>(medicineService, Medicine::class.java) {
+    override fun create(model: Model): String {
+        runBlocking {
+            val resources = resourceService.findAll().map { it.toUi() }
+            val types = typeService.findAll().map { it.toUi() }
+
+            model.addAttribute("medicine", MedicineDto())
+            model.addAttribute("resources", resources)
+            model.addAttribute("types", types)
+            model.addAttribute("intervals", IntervalEnum.values().toList())
+        }
+
+        return super.create(model)
+    }
+
     override fun getSingle(id: String, model: Model): String {
         runBlocking {
             val medicine = service.findById(id).toUi()
@@ -42,7 +56,7 @@ class MedicineController(
     }
 
     override suspend fun MedicineDto.toEntity(): Medicine = Medicine(
-        id = ObjectId(this.id),
+        id = if (this.id.isBlank()) ObjectId() else ObjectId(this.id),
         name = this.name,
         criticalAmount = this.criticalAmount,
         expiration = this.expiration.split('.').mapIndexed { index, s -> IntervalEnum.values()[index] to s.toInt() }
