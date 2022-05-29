@@ -28,7 +28,7 @@ data class Order(
 ) : Entity {
     override fun toUi(): UiDto = OrderDto(
         id = id.toString(),
-        clientSurname = CliDto(client?.id.toString(), client?.lastName ?: ""),
+        clientId = client?.id.toString(),
         datePicking = datePicked.toString(),
         status = status.name,
         medicines = medicines.map {

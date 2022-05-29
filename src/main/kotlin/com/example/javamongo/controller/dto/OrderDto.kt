@@ -2,16 +2,16 @@ package com.example.javamongo.controller.dto
 
 
 data class OrderDto(
-    val id: String,
-    val clientSurname: CliDto,
-    val datePicking: String,
-    val status: String,
-    val medicines: List<OrderMedicineDto>
+    val id: String = "",
+    val clientId: String = "",
+    val datePicking: String = "",
+    val status: String = "",
+    val medicines: List<OrderMedicineDto> = listOf()
 ) : UiDto
 
 data class CliDto(
-    val id: String,
-    val lastName: String
+    val id: String = "",
+    val lastName: String = ""
 )
 
 data class OrderMedicineDto(
