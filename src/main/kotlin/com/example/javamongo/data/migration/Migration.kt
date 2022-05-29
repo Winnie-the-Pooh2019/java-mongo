@@ -47,7 +47,7 @@ class Migration(
             gson.fromJson(getData("orders"), Array<OrderDto>::class.java).toList().toOrderList(medicines, clients)
 
         orders.forEach {
-            it.medicines.forEach { ti -> println(ti.medicine.name) }
+            it.medicines.forEach { ti -> println(ti.medicine!!.name) }
         }
 
         typeRepository.saveAll(types)

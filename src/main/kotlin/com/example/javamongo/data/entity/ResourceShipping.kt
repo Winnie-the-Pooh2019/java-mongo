@@ -1,6 +1,5 @@
 package com.example.javamongo.data.entity
 
-import com.example.javamongo.controller.dto.ResDto
 import com.example.javamongo.controller.dto.ResourceShippingDto
 import com.example.javamongo.controller.dto.UiDto
 import com.example.javamongo.data.entity.emuns.ShippingStatus
@@ -30,9 +29,10 @@ data class ResourceShipping(
 ) : Entity {
     override fun toUi(): UiDto = ResourceShippingDto(
         id = id.toString(),
-        resource = ResDto(resource?.id.toString(), resource?.name ?: ""),
-        amount = amount,
-        price = price,
+        resourceId = resource?.id.toString(),
+        resourceName = resource?.name ?: "",
+        amount = amount.toString(),
+        price = price.toString(),
         dateShipped = dateShipped.toString(),
         dateOrdered = dateOrdered.toString(),
         status = status.name

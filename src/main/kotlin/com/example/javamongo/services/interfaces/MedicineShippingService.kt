@@ -6,4 +6,6 @@ import com.example.javamongo.data.repos.MedicineShippingRepository
 
 abstract class MedicineShippingService(repository: MedicineShippingRepository) : MongoService<MedicineShipping>(repository) {
     abstract suspend fun getSoldOutMedicines(): List<Medicine>
+
+    abstract suspend fun deleteAllByMedicine(medicine: Medicine)
 }

@@ -6,9 +6,7 @@ import com.example.javamongo.data.entity.Medicine
 import com.example.javamongo.data.entity.emuns.IntervalEnum
 import com.example.javamongo.data.entity.ersaz.ResourceTechnology
 import com.example.javamongo.data.entity.ersaz.Technology
-import com.example.javamongo.services.interfaces.MedicineService
-import com.example.javamongo.services.interfaces.ResourceService
-import com.example.javamongo.services.interfaces.TypeService
+import com.example.javamongo.services.interfaces.*
 import com.google.gson.Gson
 import kotlinx.coroutines.runBlocking
 import org.bson.types.ObjectId
@@ -25,14 +23,21 @@ class MedicineController(
     @Autowired
     private val typeService: TypeService,
     @Autowired
-    private val resourceService: ResourceService
+    private val resourceService: ResourceService,
+    @Autowired
+    private val medicineShippingService: MedicineShippingService,
+    @Autowired
+    private val orderService: OrderService
 ) : CommonController<Medicine, MedicineDto>(medicineService, Medicine::class.java) {
     override fun delete(id: String?, model: Model): String {
-        if (id != null)
-            runBlocking {
-                val med = service.findById(id)
+        runBlocking {
+            val medicines = if (id != null) listOf(service.findById(id)) else service.findAll()
 
+            medicines.forEach {
+                medicineShippingService.deleteAllByMedicine(it)
+                orderService.deleteAllByMedicine(it)
             }
+        }
         return super.delete(id, model)
     }
 
@@ -67,17 +72,14 @@ class MedicineController(
     override suspend fun MedicineDto.toEntity(): Medicine = Medicine(
         id = if (this.id.isBlank()) ObjectId() else ObjectId(this.id),
         name = this.name,
-        criticalAmount = this.criticalAmount,
-        expiration = this.expiration.split('.').mapIndexed { index, s -> IntervalEnum.values()[index] to s.toInt() }
-            .filter { it.second > 0 }.toMap(),
+        criticalAmount = this.criticalAmount.toInt(),
+        expiration = this.expiration.toMap(),
         type = typeService.findById(typeId),
-        price = this.price,
+        price = this.price.toDouble(),
         technology = if (!this.description.isNullOrBlank() && !this.prepareTime.isNullOrBlank() && !this.resources.isNullOrBlank())
             Technology(
                 this.description,
-                this.prepareTime.split('.')
-                    .mapIndexed { index, s -> IntervalEnum.values()[index] to s.toInt() }.filter { it.second > 0 }
-                    .toMap(),
+                this.prepareTime.toMap(),
                 this.resources.let {
                     Gson().fromJson(it, Array<ResourceTechDto>::class.java)
                 }.map {

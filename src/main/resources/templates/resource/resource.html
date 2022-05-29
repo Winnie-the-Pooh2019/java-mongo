@@ -1,10 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        input:invalid:required {
+            background-image: linear-gradient(to right, pink, lightgreen);
+        }
+    </style>
+
+    <script>
+        function flush(id) {
+            let field = document.getElementById(id)
+            field.value = ''
+        }
+
+        function acceptChanges(id) {
+            const expiration = document.getElementById(id)
+            let elements = document.getElementsByClassName(id)
+            let text = ""
+
+            for (let i = 0; i < elements.length; i++) {
+                console.log("text = " + text)
+                if (elements[i].value === '')
+                    text += 0
+                else
+                    text += elements[i].value
+
+                if (i !== elements.length - 1)
+                    text += '.'
+            }
+
+            expiration.value = text
+        }
+    </script>
+
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${resource.name}"></title>
 </head>
-<body>
+<body class="modal-dialog modal-context modal-header card">
+<div class="jumbotron card-header">
+    <h2 class="display-3" th:text="${resource.name}">resource name</h2>
+</div>
+
+<div class="form-group card-body">
+    <form class="form-horizontal card-text" th:method="PUT" th:action="@{/resource/save(id=${resource.id})}"
+          th:object="${resource}">
+        <div class="form-group">
+            <label class="control-label" for="id_field">Id</label>
+            <div>
+                <input type="text" required class="form-control" id="id_field" th:value="${resource.id}"
+                       th:field="*{id}" disabled>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="last_name_field">Name</label>
+            <div>
+                <input type="text" required class="form-control" id="last_name_field" th:value="${resource.name}"
+                       th:field="*{name}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="first_name_field">Critical amount</label>
+            <div>
+                <input pattern="^[1-9][0-9]*$" title="number format" type="text" required class="form-control" id="first_name_field"
+                       th:value="${resource.criticalAmount}" th:field="*{criticalAmount}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="price">Price</label>
+            <div>
+                <input pattern="^-?([0-9]*\.[0-9]+|[0-9]+)$" title="number format" type="text" required class="form-control" id="price" th:value="${resource.price}"
+                       th:field="*{price}">
+            </div>
+        </div>
+
+        <!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenteredLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" th:each="interval : ${intervals}">
+                        <label th:text="${interval.name}" th:id="'interval_label_' + ${interval.ordinal}"></label>
+                        <input type="text" class="expiration form-control" th:id="'interval_' + ${interval.ordinal}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                onclick="acceptChanges('expiration')">Save changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="expiration">expiration time
+                (years.months.days.hours.minutes.seconds)</label>
+            <div>
+                <input th:value="'0.0.0.0.0.0'" pattern="^([0-9]+\.){5}[0-9]$" type="text" required class="form-control" id="expiration"
+                       th:field="*{expiration}">
+            </div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCentered">
+                Set expiration range
+            </button>
+        </div>
+
+        <button type="submit" class="btn btn-success">Edit</button>
+    </form>
+</div>
 
 </body>
 </html>

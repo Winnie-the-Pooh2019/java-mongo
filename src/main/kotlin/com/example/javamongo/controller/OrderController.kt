@@ -8,6 +8,7 @@ import com.example.javamongo.data.entity.ersaz.OrderMedicine
 import com.example.javamongo.services.interfaces.ClientService
 import com.example.javamongo.services.interfaces.MedicineService
 import com.example.javamongo.services.interfaces.OrderService
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
@@ -25,6 +26,7 @@ class OrderController(
     private val medicineService: MedicineService
 ) : CommonController<Order, OrderDto>(orderService, Order::class.java) {
     override suspend fun OrderDto.toEntity(): Order = Order(
+        id = if (id.isBlank()) ObjectId() else ObjectId(id),
         client = clientService.findById(clientSurname.id),
         datePicked = LocalDate.parse(datePicking, DateTimeFormatter.ofPattern("yyyy-MM-dd")),
         medicines = medicines.map { orMedDto ->

@@ -18,17 +18,23 @@ class MedicineShippingServiceImpl(
     override suspend fun getSoldOutMedicines(): List<Medicine> = withContext(Dispatchers.IO) {
         return@withContext medicineShippingRepository.findAll().filter {
             it.dateShipped?.let { shipped ->
-                it.medicine.expiration.onEach { (intervalEnum, i) ->
-                    when (intervalEnum) {
-                        IntervalEnum.YEARS -> shipped.plusYears(i.toLong())
-                        IntervalEnum.MONTHS -> shipped.plusMonths(i.toLong())
-                        IntervalEnum.DAYS -> shipped.plusDays(i.toLong())
-                        else -> println()
+                it.medicine?.let { med ->
+                    med.expiration.onEach { (intervalEnum, i) ->
+                        when (intervalEnum) {
+                            IntervalEnum.YEARS -> shipped.plusYears(i.toLong())
+                            IntervalEnum.MONTHS -> shipped.plusMonths(i.toLong())
+                            IntervalEnum.DAYS -> shipped.plusDays(i.toLong())
+                            else -> println()
+                        }
                     }
                 }
                 println("5 QUERY DATE = $shipped")
                 shipped < LocalDate.now()
             } ?: false
-        }.map { it.medicine }.toSet().toList()
+        }.mapNotNull { it.medicine }.toSet().toList()
+    }
+
+    override suspend fun deleteAllByMedicine(medicine: Medicine) = withContext(Dispatchers.IO) {
+        medicineShippingRepository.deleteAllByMedicine(medicine)
     }
 }

@@ -28,18 +28,13 @@ data class Medicine(
     override fun toUi(): UiDto = MedicineDto(
         id = id.toString(),
         name = name,
-        criticalAmount = criticalAmount,
-        expiration = IntervalEnum.values()
-            .map { it.ordinal to if (it in expiration.keys) expiration[it]!!.toString() else "0" }.sortedBy { it.first }
-            .joinToString(".") { it.second },
+        criticalAmount = criticalAmount.toString(),
+        expiration = expiration.stringify(),
         typeName = type.name,
         typeId = type.id.toString(),
-        price = price,
+        price = price.toString(),
         description = technology?.description,
-        prepareTime = technology?.let { IntervalEnum.values()
-            .map { it.ordinal to if (it in technology.prepareTime.keys) technology.prepareTime[it]!!.toString() else "0" }
-            .sortedBy { it.first }
-            .joinToString(".") { it.second } },
+        prepareTime = technology?.prepareTime?.stringify(),
         resources = technology?.let { Gson().toJson(technology.resources.map {
             ResourceTechDto(ResDto(it.resource?.id.toString(), it.resource?.name ?: ""), it.count)
         }.toTypedArray(), Array<ResourceTechDto>::class.java) }

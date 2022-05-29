@@ -1,12 +1,15 @@
 package com.example.javamongo.controller
 
-import com.example.javamongo.controller.dto.ClientDto
 import com.example.javamongo.controller.dto.UiDto
 import com.example.javamongo.data.entity.Entity
 import com.example.javamongo.services.interfaces.MongoService
 import kotlinx.coroutines.runBlocking
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestParam
+import javax.validation.Valid
 
 abstract class CommonController<T : Entity, U: UiDto>(protected val service: MongoService<T>, private val clazz: Class<T>) {
     @GetMapping
@@ -15,7 +18,6 @@ abstract class CommonController<T : Entity, U: UiDto>(protected val service: Mon
             service.findAll().map { it.toUi() }
         }
         val className = clazz.simpleName.lowercase()
-        println(className)
         model.addAttribute("${className}s", objects)
 
         return "$className/${className}s"
@@ -27,7 +29,6 @@ abstract class CommonController<T : Entity, U: UiDto>(protected val service: Mon
             service.findById(id).toUi()
         }
         val className = clazz.simpleName.lowercase()
-        println(className)
         model.addAttribute(className, obj)
 
         return "$className/$className"
@@ -35,7 +36,7 @@ abstract class CommonController<T : Entity, U: UiDto>(protected val service: Mon
 
     @GetMapping("/create")
     open fun create(model: Model): String {
-        return "${clazz.simpleName.lowercase()}/${clazz.simpleName.lowercase()}_create"
+        return "${clazz.simpleName.lowercase()}/${clazz.simpleName.lowercase()}"
     }
 
     @DeleteMapping("/delete")
@@ -46,28 +47,13 @@ abstract class CommonController<T : Entity, U: UiDto>(protected val service: Mon
             else
                 service.deleteById(id)
         }
-        println("DELETING DOCUMENT")
 
         return "redirect:/${clazz.simpleName.lowercase()}"
     }
 
     @PutMapping("/save")
-    open fun insert(@ModelAttribute ui: U): String {
-        println("patro == null? ${
-            if (ui is ClientDto)
-                ui.patronymic == null
-            else
-                "skip"
-        }")
+    open fun insert(@Valid ui: U): String {
         runBlocking { service.insert(ui.toEntity()) }
-
-        return "redirect:/${clazz.simpleName.lowercase()}"
-    }
-
-    @PatchMapping("/save")
-    open fun update(@ModelAttribute ui: U): String {
-        println("$ui")
-        runBlocking { service.update(ui.toEntity()) }
 
         return "redirect:/${clazz.simpleName.lowercase()}"
     }

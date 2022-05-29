@@ -8,6 +8,10 @@ import com.example.javamongo.data.repos.OrderRepository
 import java.time.LocalDate
 
 abstract class OrderService(repository: OrderRepository) : MongoService<Order>(repository) {
+    abstract suspend fun deleteAllByMedicine(medicine: Medicine)
+
+    abstract suspend fun deleteAllByClient(client: Client)
+
     //    1
     abstract suspend fun getNotPickedClients(): List<Client>
 

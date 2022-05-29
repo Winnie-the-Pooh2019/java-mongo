@@ -1,10 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+    <style>
+        .topnav {
+            overflow: hidden;
+        }
+
+        .topnav a {
+            float: left;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: black;
+            color: #ddd;
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <title>Medicine Shippings</title>
+</head>
+<body class=".modal-dialog .modal-content .modal-body">
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            Menu
+        </button>
+
+        <div class="collapse navbar-collapse topnav" id="navbarSupportedContent">
+            <a class="nav-link" th:href="@{/}">Home</a>
+        </div>
+    </nav>
+</div>
+
+<div>
+    <!--/*@thymesVar id="medicineshippings" type="java.util.List"*/-->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Medicine name</th>
+            <th>Date ordered</th>
+            <th>Date shipped</th>
+            <th>Delete</th>
+            <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody th:each="medicineshipping: ${medicineshippings}" th:with="counter=1">
+        <tr>
+            <td th:text="${medicineshipping.id}">Mark</td>
+            <td th:text="${medicineshipping.medicineName}">Otto</td>
+            <td th:text="${medicineshipping.dateOrdered}">Otto</td>
+            <td th:text="${medicineshipping.dateShipped}"></td>
+            <td>
+                <form th:method="DELETE" th:action="@{/medicineshipping/delete(id=${medicineshipping.id})}">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+            <td>
+                <a th:href="@{/medicineshipping/byId(id=${medicineshipping.id})}">
+                    <button type="submit" class="btn btn-primary">View</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/medicineshipping/create}">
+        <button type="submit" class="btn btn-outline-info">Create new</button>
+    </a>
+</div>
 </body>
 </html>
