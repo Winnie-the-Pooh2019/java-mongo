@@ -39,20 +39,24 @@
         }
 
         function addIngredient() {
-            let amount = document.getElementById("res_count")
+            let amount = document.getElementById("amount")
+            let price = document.getElementById("price")
 
-            if (amount.value !== 0) {
+            if (amount.value !== 0 && price.value !== 0) {
                 let selector = document.getElementById("res_selected")
                 let optionId = selector.options[selector.selectedIndex].value
                 let optionName = selector.options[selector.selectedIndex].text
                 console.log("option = " + optionId + ' ' + optionName)
 
+                let stat = document.getElementById("med_stat")
+                let statText = selector.options[selector.selectedIndex].value
+
                 const newRes = {
-                    resource: {
-                        id: optionId,
-                        name: optionName
-                    },
-                    count: amount.value
+                    medicineId: optionId,
+                    medicineName: optionName,
+                    amount: amount.value,
+                    price: price.value,
+                    status: statText
                 }
                 console.log("newRes = " + JSON.stringify(newRes))
 
@@ -61,9 +65,14 @@
                 //JSON.parse(inputRes.value)
                 if (inputRes.value === "")
                     text = [newRes]
-                else  {
+                else {
                     text = JSON.parse(inputRes.value)
-                    if (!text.includes(newRes))
+                    let isIn = false
+                    for (const item of text) {
+                        if (item.medicineId === newRes.medicineId)
+                            isIn = true
+                    }
+                    if (!isIn)
                         text.push(newRes)
                 }
 
@@ -80,6 +89,13 @@
                 document.getElementById("finish").disabled = true
             } else
                 document.getElementById("finish").disabled = false
+        }
+
+        function add(arg) {
+            let node = document.createElement('option')
+            node.value = "Zhopa"
+            node.text = "piska"
+            document.getElementById("statusSelector").appendChild(node)
         }
     </script>
 
@@ -104,10 +120,11 @@
         <div class="form-group">
             <label class="control-label" for="clientSelector">Client</label>
             <div>
-                <div class="modal-body" >
+                <div class="modal-body">
                     <select th:field="*{clientId}" id="clientSelector" class="form-select">
                         <option
-                                th:each="client : ${clients}" class="res_select" th:value="${client.id}" th:text="${client.lastName}"></option>
+                                th:each="client : ${clients}" class="res_select" th:value="${client.id}"
+                                th:text="${client.lastName}"></option>
                     </select>
                 </div>
             </div>
@@ -119,164 +136,193 @@
                 <input onchange="dateCheck()" id="datePicking" type="date" th:field="*{datePicking}">
             </div>
         </div>
-<!--        <div class="form-group">-->
-<!--            <label class="control-label" for="first_name_field">Status</label>-->
-<!--            <div>-->
-<!--                <input type="text" required class="form-control" id="first_name_field" th:field="*{order.status}">-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="form-group">-->
+        <!--            <label class="control-label" for="first_name_field">Status</label>-->
+        <!--            <div>-->
+        <!--                <input type="text" required class="form-control" id="first_name_field" th:field="*{order.status}">-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div class="form-group">
             <label class="control-label" for="statusSelector">Status</label>
             <div>
-                <div class="modal-body" >
+                <div class="modal-body">
                     <select th:field="*{status}" id="statusSelector" class="form-select">
-                        <option th:each="status : ${statuses}" class="res_select" th:value="${status}" th:text="${status}"></option>
+                        <option th:each="status : ${statuses}" class="res_select" th:value="${status}"
+                                th:text="${status}"></option>
                     </select>
                 </div>
             </div>
         </div>
-<!--        <div class="form-group">-->
-<!--            <label class="control-label" for="price">Price</label>-->
-<!--            <div>-->
-<!--                <input pattern="^-?([0-9]*\.[0-9]+|[0-9]+)$" title="number format" type="text" required class="form-control" id="price" th:value="${order.price}"-->
-<!--                       th:field="*{price}">-->
-<!--            </div>-->
-<!--        </div>-->
 
-<!--        &lt;!&ndash; Button trigger modal &ndash;&gt;-->
+        <div class="form-group">
+            <label class="control-label">Status</label>
+            <div>
+                <div class="modal-body">
+                    <ul id="stat_list">
+                        <li th:each="stat : ${statuses}" th:text="${stat}"></li>
+                    </ul>
+                </div>
+                <button class="btn btn-warning" type="button" th:onclick="'add(' + ${stat} + ')'">Зкуыы</button>
+            </div>
+        </div>
+
+        <div class="modal" id="ingredientsModal" tabindex="-1" role="dialog"
+             aria-labelledby="ingredientsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ingredientsModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" >
+                        <label for="res_selected">Select medicine</label>
+                        <select id="res_selected">
+                            <option th:each="resource : ${meds}" class="res_select" th:value="${resource.id}" th:text="${resource.name}"></option>
+                        </select>
+                        <label for="amount">Count</label>
+                        <input type="text" class="form-control" id="amount">
+                        <label for="price">Price</label>
+                        <input type="text" class="form-control" id="price">
+                        <label for="med_stat">Select status</label>
+                        <select id="med_stat">
+                            <option th:each="stat : ${stats}" class="res_select" th:value="${stat}" th:text="${stat}"></option>
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                onclick="addIngredient()">Save changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <label for="tech_resources">Medicines</label>
+            <input readonly type="text" class="form-control" id="tech_resources"
+                                                       th:field="*{medicines}">
+            <button class="btn btn-warning" type="button" id="flush_res" onclick="flush('tech_resources')">Flush
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ingredientsModal">
+                Add resource
+            </button>
+        </div>
+
+        <!--        <div class="form-group">-->
+        <!--            <label class="control-label" for="price">Price</label>-->
+        <!--            <div>-->
+        <!--                <input pattern="^-?([0-9]*\.[0-9]+|[0-9]+)$" title="number format" type="text" required class="form-control" id="price" th:value="${order.price}"-->
+        <!--                       th:field="*{price}">-->
+        <!--            </div>-->
+        <!--        </div>-->
+
+        <!--        &lt;!&ndash; Button trigger modal &ndash;&gt;-->
 
 
-<!--        &lt;!&ndash; Modal &ndash;&gt;-->
-<!--        <div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog"-->
-<!--             aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">-->
-<!--            <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--                <div class="modal-content">-->
-<!--                    <div class="modal-header">-->
-<!--                        <h5 class="modal-title" id="exampleModalCenteredLabel">Modal title</h5>-->
-<!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                            <span aria-hidden="true">&times;</span>-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                    <div class="modal-body" th:each="interval : ${intervals}">-->
-<!--                        <label th:text="${interval.name}" th:id="'interval_label_' + ${interval.ordinal}"></label>-->
-<!--                        <input type="text" class="expiration form-control" th:id="'interval_' + ${interval.ordinal}">-->
-<!--                    </div>-->
-<!--                    <div class="modal-footer">-->
-<!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                        <button type="button" class="btn btn-primary" data-dismiss="modal"-->
-<!--                                onclick="acceptChanges('expiration')">Save changes-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        &lt;!&ndash; Modal &ndash;&gt;-->
+        <!--        <div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog"-->
+        <!--             aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">-->
+        <!--            <div class="modal-dialog modal-dialog-centered" role="document">-->
+        <!--                <div class="modal-content">-->
+        <!--                    <div class="modal-header">-->
+        <!--                        <h5 class="modal-title" id="exampleModalCenteredLabel">Modal title</h5>-->
+        <!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+        <!--                            <span aria-hidden="true">&times;</span>-->
+        <!--                        </button>-->
+        <!--                    </div>-->
+        <!--                    <div class="modal-body" th:each="interval : ${intervals}">-->
+        <!--                        <label th:text="${interval.name}" th:id="'interval_label_' + ${interval.ordinal}"></label>-->
+        <!--                        <input type="text" class="expiration form-control" th:id="'interval_' + ${interval.ordinal}">-->
+        <!--                    </div>-->
+        <!--                    <div class="modal-footer">-->
+        <!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+        <!--                        <button type="button" class="btn btn-primary" data-dismiss="modal"-->
+        <!--                                onclick="acceptChanges('expiration')">Save changes-->
+        <!--                        </button>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
 
-<!--        <div class="form-group">-->
-<!--            <label class="control-label" for="expiration">expiration time-->
-<!--                (years.months.days.hours.minutes.seconds)</label>-->
-<!--            <div>-->
-<!--                <input th:value="'0.0.0.0.0.0'" pattern="^([0-9]+\.){5}[0-9]$" type="text" required class="form-control" id="expiration"-->
-<!--                       th:field="*{expiration}">-->
-<!--            </div>-->
-<!--            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCentered">-->
-<!--                Set expiration range-->
-<!--            </button>-->
-<!--        </div>-->
+        <!--        <div class="form-group">-->
+        <!--            <label class="control-label" for="expiration">expiration time-->
+        <!--                (years.months.days.hours.minutes.seconds)</label>-->
+        <!--            <div>-->
+        <!--                <input th:value="'0.0.0.0.0.0'" pattern="^([0-9]+\.){5}[0-9]$" type="text" required class="form-control" id="expiration"-->
+        <!--                       th:field="*{expiration}">-->
+        <!--            </div>-->
+        <!--            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCentered">-->
+        <!--                Set expiration range-->
+        <!--            </button>-->
+        <!--        </div>-->
 
-<!--        <div class="card-footer">-->
-<!--            <h4 class="card-subtitle">Technology</h4>-->
-<!--            <div class="form-group">-->
-<!--                <label class="control-label" for="tech_desc">Description (leave empty if you don't want to add any-->
-<!--                    tech)</label>-->
-<!--                <div>-->
-<!--                    <input type="text" class="form-control" id="tech_desc"-->
-<!--                           th:field="*{description}">-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
+        <!--        <div class="card-footer">-->
+        <!--            <h4 class="card-subtitle">Technology</h4>-->
+        <!--            <div class="form-group">-->
 
-<!--                &lt;!&ndash; Modal &ndash;&gt;-->
-<!--                <div class="modal" id="prepModal" tabindex="-1" role="dialog"-->
-<!--                     aria-labelledby="prepModalLabel" aria-hidden="true">-->
-<!--                    <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--                        <div class="modal-content">-->
-<!--                            <div class="modal-header">-->
-<!--                                <h5 class="modal-title" id="prepModalLabel">Modal title</h5>-->
-<!--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                                    <span aria-hidden="true">&times;</span>-->
-<!--                                </button>-->
-<!--                            </div>-->
+        <!--                &lt;!&ndash; Modal &ndash;&gt;-->
+        <!--                <div class="modal" id="prepModal" tabindex="-1" role="dialog"-->
+        <!--                     aria-labelledby="prepModalLabel" aria-hidden="true">-->
+        <!--                    <div class="modal-dialog modal-dialog-centered" role="document">-->
+        <!--                        <div class="modal-content">-->
+        <!--                            <div class="modal-header">-->
+        <!--                                <h5 class="modal-title" id="prepModalLabel">Modal title</h5>-->
+        <!--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+        <!--                                    <span aria-hidden="true">&times;</span>-->
+        <!--                                </button>-->
+        <!--                            </div>-->
 
-<!--                            <div class="modal-body" th:each="interval : ${intervals}">-->
-<!--                                <label th:text="${interval.name}" th:id="'interval_label_' + ${interval.ordinal}"></label>-->
-<!--                                <input type="text" class="tech_time form-control" th:id="'interval_' + ${interval.ordinal}">-->
-<!--                            </div>-->
+        <!--                            <div class="modal-body" th:each="medicine : ${medicines}">-->
+        <!--                                <select>-->
+        <!--                                    <option th:each="medicine : ${medicines}" th:value=""-->
+        <!--                                </select>-->
+        <!--                                <label th:text="${medicine.name}" th:id="'interval_label_' + ${medicine.id}"></label>-->
+        <!--                                <input type="text" class="tech_time form-control" th:id="'interval_' + ${medicine.id}">-->
+        <!--                            </div>-->
 
-<!--                            <div class="modal-footer">-->
-<!--                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                                <button type="button" class="btn btn-primary" data-dismiss="modal"-->
-<!--                                        onclick="acceptChanges('tech_time')">Save changes-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+        <!--                            <div class="modal-footer">-->
+        <!--                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+        <!--                                <button type="button" class="btn btn-primary" data-dismiss="modal"-->
+        <!--                                        onclick="acceptChanges('tech_time')">Save changes-->
+        <!--                                </button>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
 
-<!--                <label class="control-label" for="tech_time">Prepare time-->
-<!--                    (years.months.days.hours.minutes.seconds)</label>-->
-<!--                <div>-->
-<!--                    <input readonly type="text" class="form-control" id="tech_time"-->
-<!--                           th:value="${order.prepareTime}"-->
-<!--                           th:field="*{prepareTime}">-->
-<!--                </div>-->
-<!--                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#prepModal">-->
-<!--                    Set prepare time range-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
+        <!--                <label class="control-label" for="tech_time">Prepare time-->
+        <!--                    (years.months.days.hours.minutes.seconds)</label>-->
+        <!--                <div>-->
+        <!--                    <input readonly type="text" class="form-control" id="tech_time"-->
+        <!--                           th:value="${order.prepareTime}"-->
+        <!--                           th:field="*{prepareTime}">-->
+        <!--                </div>-->
+        <!--                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#prepModal">-->
+        <!--                    Set prepare time range-->
+        <!--                </button>-->
+        <!--            </div>-->
+        <!--            <div class="form-group">-->
 
-<!--                &lt;!&ndash; Modal &ndash;&gt;-->
-<!--                <div class="modal" id="ingredientsModal" tabindex="-1" role="dialog"-->
-<!--                     aria-labelledby="ingredientsModalLabel" aria-hidden="true">-->
-<!--                    <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--                        <div class="modal-content">-->
-<!--                            <div class="modal-header">-->
-<!--                                <h5 class="modal-title" id="ingredientsModalLabel">Modal title</h5>-->
-<!--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                                    <span aria-hidden="true">&times;</span>-->
-<!--                                </button>-->
-<!--                            </div>-->
+        <!--                &lt;!&ndash; Modal &ndash;&gt;-->
 
-<!--                            <div class="modal-body" >-->
-<!--                                <select id="res_selected">-->
-<!--                                    <option th:each="resource : ${resources}" class="res_select" th:value="${resource.id}" th:text="${resource.name}"></option>-->
-<!--                                </select>-->
-<!--                                <label>Count</label>-->
-<!--                                <input type="text" class="form-control" id="res_count">-->
-<!--                            </div>-->
 
-<!--                            <div class="modal-footer">-->
-<!--                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                                <button type="button" class="btn btn-primary" data-dismiss="modal"-->
-<!--                                        onclick="addIngredient()">Save changes-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <label class="control-label" for="tech_resources">List of needed ingredients</label>-->
-<!--                <div>-->
-<!--                    <input readonly type="text" class="form-control" id="tech_resources"-->
-<!--                           th:field="*{resources}">-->
-<!--                    &lt;!&ndash;                           th:text="${order.technology.resources}"&ndash;&gt;-->
-<!--                    <button class="btn btn-warning" type="button" id="flush_res" onclick="flush('tech_resources')">Flush</button>-->
-<!--                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ingredientsModal">-->
-<!--                        Add resource-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--                <label class="control-label" for="tech_resources">List of needed ingredients</label>-->
+        <!--                <div>-->
+        <!--                    <input readonly type="text" class="form-control" id="tech_resources"-->
+        <!--                           th:field="*{resources}">-->
+        <!--                    &lt;!&ndash;                           th:text="${order.technology.resources}"&ndash;&gt;-->
+        <!--                    <button class="btn btn-warning" type="button" id="flush_res" onclick="flush('tech_resources')">Flush</button>-->
+        <!--                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ingredientsModal">-->
+        <!--                        Add resource-->
+        <!--                    </button>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
 
         <button type="submit" class="btn btn-success">Edit</button>
     </form>

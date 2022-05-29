@@ -56,7 +56,7 @@
         <tbody th:each="order: ${orders}" th:with="counter=0">
         <tr>
             <td th:text="${order.id}">Mark</td>
-            <td th:text="${order.clientSurname.lastName}">Otto</td>
+            <td th:text="${order.clientSurname}">Otto</td>
             <td th:text="${order.datePicking}">Otto</td>
             <td>
                 <form th:method="DELETE" th:action="@{/order/delete(id=${order.id})}">

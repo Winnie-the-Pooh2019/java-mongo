@@ -4,9 +4,10 @@ package com.example.javamongo.controller.dto
 data class OrderDto(
     val id: String = "",
     val clientId: String = "",
+    val clientSurname: String = "",
     val datePicking: String = "",
     val status: String = "",
-    val medicines: List<OrderMedicineDto> = listOf()
+    val medicines: String = ""
 ) : UiDto
 
 data class CliDto(

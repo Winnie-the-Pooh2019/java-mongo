@@ -1,11 +1,11 @@
 package com.example.javamongo.data.entity
 
-import com.example.javamongo.controller.dto.CliDto
 import com.example.javamongo.controller.dto.OrderDto
 import com.example.javamongo.controller.dto.OrderMedicineDto
 import com.example.javamongo.controller.dto.UiDto
 import com.example.javamongo.data.entity.emuns.OrderStatus
 import com.example.javamongo.data.entity.ersaz.OrderMedicine
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
@@ -29,9 +29,10 @@ data class Order(
     override fun toUi(): UiDto = OrderDto(
         id = id.toString(),
         clientId = client?.id.toString(),
+        clientSurname = client?.lastName.toString(),
         datePicking = datePicked.toString(),
         status = status.name,
-        medicines = medicines.map {
+        medicines = Gson().toJson(medicines.map {
             OrderMedicineDto(
                 medicineName = it.medicine?.name ?: "",
                 amount = it.amount,
@@ -39,6 +40,6 @@ data class Order(
                 status = it.status.name,
                 medicineId = it.medicine?.id.toString()
             )
-        }
+        })
     )
 }
