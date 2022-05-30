@@ -38,7 +38,7 @@
 </head>
 <body class="modal-dialog modal-context modal-header card">
 <div class="card-header">
-    <p class="display-3" th:text="'Shipping №' + ${resourceshipping.id}"></p>
+    <p th:text="'Shipping № ' + ${resourceshipping.id}"></p>
 </div>
 
 <div class="form-group card-body">
@@ -100,7 +100,6 @@
         </div>
 
         <button id="finish" type="submit" class="btn btn-success">Edit</button>
-        <button onclick="flush()" type="button" class="btn btn-danger">echo</button>
     </form>
 </div>
 

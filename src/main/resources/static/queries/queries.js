@@ -1,7 +1,7 @@
 // use pharmacy
-
+db.orders.find();
 // 1
-db.orders.aggregate(
+let count = db.orders.aggregate(
     {
         $match: {
             $and: [
@@ -20,7 +20,7 @@ db.orders.aggregate(
     },
     {$group: {_id: "$client"}},
     {$count: "clients"}
-);
+).toArray()[0].clients;
 
 db.orders.aggregate(
     {
@@ -40,12 +40,16 @@ db.orders.aggregate(
         }
     },
     {$addFields: {client: {$arrayElemAt: ["$client", 0]}}},
-    {$group: {_id: {
+    {
+        $group: {
+            _id: {
                 id: "$client._id",
                 last_name: "$client.last_name",
                 first_name: "$client.first_name"
-            }}},
-    {$project: {_id: 0, id: "$_id.id", last_name: "$_id.last_name", first_name: "$_id.first_name", status: 1}}
+            }, count: {$count: {}}
+        }
+    },
+    {$project: {_id: 0, id: "$_id.id", last_name: "$_id.last_name", first_name: "$_id.first_name", status: 1, count: 1}}
 );
 
 // 2.1
@@ -60,11 +64,15 @@ db.orders.aggregate(
         }
     },
     {$addFields: {client: {$arrayElemAt: ["$client", 0]}}},
-    {$group: {_id: {
+    {
+        $group: {
+            _id: {
                 id: "$client._id",
                 last_name: "$client.last_name",
                 first_name: "$client.first_name"
-            }}},
+            }
+        }
+    },
     {$project: {_id: 0, id: "$_id.id", last_name: "$_id.last_name", first_name: "$_id.first_name", status: 1}}
 );
 
@@ -100,11 +108,15 @@ db.orders.aggregate(
         $match: {"type.name": {$eq: "krem"}}
     },
     {$addFields: {client: {$arrayElemAt: ["$client", 0]}}},
-    {$group: {_id: {
+    {
+        $group: {
+            _id: {
                 id: "$client._id",
                 last_name: "$client.last_name",
                 first_name: "$client.first_name"
-            }}},
+            }
+        }
+    },
     {$project: {_id: 0, id: "$_id.id", last_name: "$_id.last_name", first_name: "$_id.first_name", status: 1}}
 );
 
@@ -259,8 +271,11 @@ db.orders.aggregate(
             $and: [
                 {date_picked: {$gte: new Date("2002-01-01")},},
                 {date_picked: {$lte: new Date("2021-01-01")}},
-                {"type.name": {$in: ["maz", "krem"]
-                    }}
+                {
+                    "type.name": {
+                        $in: ["maz", "krem"]
+                    }
+                }
             ]
         },
     },
@@ -300,8 +315,11 @@ db.orders.aggregate(
             $and: [
                 {date_picked: {$gte: new Date("2002-01-01")},},
                 {date_picked: {$lte: new Date("2021-01-01")}},
-                {"type.name": {$in: ["maz", "krem"]
-                    }}
+                {
+                    "type.name": {
+                        $in: ["maz", "krem"]
+                    }
+                }
             ]
         },
     },
@@ -311,16 +329,16 @@ db.orders.aggregate(
 );
 
 // 5
-db.medicine_shipping.aggregate(
+
+db.medicines.aggregate(
     {
         $lookup: {
-            from: "medicines",
-            localField: "medicine.$id",
-            foreignField: "_id",
-            as: "medicine"
+            from: "medicine_shipping",
+            localField: "_id",
+            foreignField: "medicine.$id",
+            as: "shipping"
         }
     },
-    {$addFields: {medicine: {$arrayElemAt: ["$medicine", 0]}}},
     {
         $lookup: {
             from: "types",
@@ -329,11 +347,18 @@ db.medicine_shipping.aggregate(
             as: "medicine.type"
         }
     },
-    {$group: {_id: "$medicine", medAmount: {$sum: "$amount"}}},
-    {$addFields: {cmpt: {$cmp: ["$medAmount", "$_id.critical_amount"]}}},
+    {
+        $match: {
+            $or: [
+                {"shipping.status": "DELIVERED"},
+                {"shipping": {$size: 0}}
+            ]
+        }
+    },
+    {$addFields: {amount: {$sum: "$shipping.amount"}, cmpt: {$cmp: ["$amount", "$critical_amount"]}}},
     {$match: {cmpt: {$eq: -1}}},
-    {$project: {medName: "$_id.name", medAmount: 1, _id: 0, crit: 1, critAmount: "$_id.critical_amount", medType: "$_id.type.name"}},
-);
+    {$project: {name: 1, amount: 1, critical_amount: 1}}
+)
 
 // 6
 db.orders.aggregate(
@@ -364,6 +389,7 @@ db.orders.aggregate(
 );
 
 // 7 ???
+// число
 db.orders.aggregate(
     {$match: {status: "IN_PROGRESS"}},
     {$unwind: {path: "$medicines"}},
@@ -379,6 +405,7 @@ db.orders.aggregate(
     {$count: "medicines for orders"}
 );
 
+// первый вариант
 db.orders.aggregate(
     {$match: {status: "IN_PROGRESS"}},
     {$unwind: {path: "$medicines"}},
@@ -394,6 +421,29 @@ db.orders.aggregate(
     {$group: {_id: "$medicine", count: {$count: {}}}},
     {$project: {medicineName: "$_id.name", medicineId: "$_id._id", _id: 0, count: 1}}
 );
+// тож рабочий варик
+db.medicines.aggregate(
+    {
+        $lookup: {
+            from: "orders",
+            localField: "_id",
+            foreignField: "medicines.medicine.$id",
+            as: "orders"
+        }
+    },
+    {$unwind: {path: "$orders"}},
+    {$match: {"orders.status": "IN_PROGRESS"}},
+    {
+        $group: {
+            _id: {
+                id: "$_id",
+                name: "$name"
+            },
+            count: {$count: {}}
+        }
+    },
+    {$project: {id: "$_id.id", name: "$_id.name", count: 1, _id: 0}}
+);
 
 // 8.1
 db.medicines.aggregate(
@@ -405,11 +455,15 @@ db.medicines.aggregate(
             as: "type"
         }
     },
-    {$match: {$and: [
+    {
+        $match: {
+            $and: [
                 {technology: {$ne: null}},
                 {"type.name": {$in: ["maz"]}}
-            ]}},
-    {$project: { _id: 0, name: 1, technology: 1 }}
+            ]
+        }
+    },
+    {$project: {_id: 0, name: 1, technology: 1}}
 )
 db.orders.aggregate(
     // {$match: {status: "IN_PROGRESS"}},
@@ -432,20 +486,37 @@ db.orders.aggregate(
     },
     {$addFields: {medicine: {$arrayElemAt: ["$medicine", 0]}}},
     {$group: {_id: {medicine: "$medicine", type: "$type.name"}}},
-    {$match: {$and: [
+    {
+        $match: {
+            $and: [
                 {"_id.medicine.technology": {$ne: null}},
                 {"_id.type": {$in: ["maz"]}}
-            ]}},
-    {$project: {medicine: "$_id.medicine.name", typeName: "$_id.type", description: "$_id.medicine.technology.description", prepare_time: "$_id.medicine.technology.prepareTime", resources: "$_id.medicine.technology.resources", _id: 0}}
+            ]
+        }
+    },
+    {
+        $project: {
+            medicine: "$_id.medicine.name",
+            typeName: "$_id.type",
+            description: "$_id.medicine.technology.description",
+            prepare_time: "$_id.medicine.technology.prepareTime",
+            resources: "$_id.medicine.technology.resources",
+            _id: 0
+        }
+    }
 );
 
 // 8.2
 db.medicines.aggregate(
-    {$match: {$and: [
+    {
+        $match: {
+            $and: [
                 {technology: {$ne: null}},
                 {name: {$in: ["Zhopatushin"]}}
-            ]}},
-    {$project: { _id: 0, name: 1, technology: 1 }}
+            ]
+        }
+    },
+    {$project: {_id: 0, name: 1, technology: 1}}
 )
 
 db.orders.aggregate(
@@ -461,11 +532,23 @@ db.orders.aggregate(
     },
     {$addFields: {medicine: {$arrayElemAt: ["$medicine", 0]}}},
     {$group: {_id: "$medicine"}},
-    {$match: {$and: [
+    {
+        $match: {
+            $and: [
                 {"_id.technology": {$ne: null}},
-                {"_id.name": {$in: ["Zhopatushin"]}}
-            ]}},
-    {$project: {medicine: "$_id.name", description: "$_id.technology.description", prepare_time: "$_id.technology.prepareTime", resources: "$_id.technology.resources", _id: 0}}
+                {"_id.name": {$in: ["Spasmolgon"]}}
+            ]
+        }
+    },
+    {
+        $project: {
+            medicine: "$_id.name",
+            description: "$_id.technology.description",
+            prepare_time: "$_id.technology.prepareTime",
+            resources: "$_id.technology.resources",
+            _id: 0
+        }
+    }
 );
 
 // 8.3
@@ -482,10 +565,22 @@ db.orders.aggregate(
     },
     {$addFields: {medicine: {$arrayElemAt: ["$medicine", 0]}}},
     {$group: {_id: "$medicine"}},
-    {$match: {$and: [
+    {
+        $match: {
+            $and: [
                 {"_id.technology": {$ne: null}}
-            ]}},
-    {$project: {medicine: "$_id.name", description: "$_id.technology.description", prepare_time: "$_id.technology.prepareTime", resources: "$_id.technology.resources", _id: 0}}
+            ]
+        }
+    },
+    {
+        $project: {
+            medicine: "$_id.name",
+            description: "$_id.technology.description",
+            prepare_time: "$_id.technology.prepareTime",
+            resources: "$_id.technology.resources",
+            _id: 0
+        }
+    }
 );
 
 // 9 ??? ценах что???
@@ -498,23 +593,31 @@ db.medicines.aggregate(
             as: "resource"
         }
     },
-    {$match: {$and: [
+    {
+        $match: {
+            $and: [
                 {technology: {$ne: null}},
                 {"name": "Spasmolgon"}
-            ]}},
-    {$group: {
+            ]
+        }
+    },
+    {
+        $group: {
             _id: {
                 name: "$name",
                 price: "$price"
             },
-            res: {$push:  {name:"$resource.name", amount: "$technology.resources.count", price: "$resource.price"}}
-        }},
-    {$project: {
+            res: {$push: {name: "$resource.name", amount: "$technology.resources.count", price: "$resource.price"}}
+        }
+    },
+    {
+        $project: {
             name: "$_id.name",
             price: "$_id.price",
             res: 1,
             _id: 0
-        }}
+        }
+    }
 );
 
 // 10.1
@@ -538,19 +641,23 @@ db.orders.aggregate(
     },
     {$addFields: {client: {$arrayElemAt: ["$client", 0]}}},
     {$match: {"medicine.name": {$in: ["Spasmolgon"]}}},
-    {$group: {
+    {
+        $group: {
             _id: {
                 id: "$client._id",
                 last_name: "$client.last_name"
             },
             count: {$count: {}}
-        }},
-    {$project: {
+        }
+    },
+    {
+        $project: {
             id: "$_id.id",
             last_name: "$_id.last_name",
             count: 1,
             _id: 0
-        }},
+        }
+    },
     {$sort: {count: -1}},
     {$limit: 10}
 );
@@ -583,20 +690,24 @@ db.orders.aggregate(
         }
     },
     {$addFields: {client: {$arrayElemAt: ["$client", 0]}}},
-    {$match: {"type.name": {$id: ["maz"]}}},
-    {$group: {
+    {$match: {"type.name": {$in: ["maz", "krem"]}}},
+    {
+        $group: {
             _id: {
                 id: "$client._id",
                 last_name: "$client.last_name"
             },
             count: {$count: {}}
-        }},
-    {$project: {
+        }
+    },
+    {
+        $project: {
             id: "$_id.id",
             last_name: "$_id.last_name",
             count: 1,
             _id: 0
-        }},
+        }
+    },
     {$sort: {count: -1}},
     {$limit: 10}
 )

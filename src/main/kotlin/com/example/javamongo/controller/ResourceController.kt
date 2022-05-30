@@ -32,6 +32,7 @@ class ResourceController(
             resources.forEach {
                 resourceShippingService.deleteAllByResource(it)
                 medicineService.deleteAllByResource(it).forEach {med ->
+                    println(med)
                     orderService.deleteAllByMedicine(med)
                     medicineShippingService.deleteAllByMedicine(med)
                 }

@@ -25,7 +25,7 @@
         }
     },
     {
-        "name": "Zhopatushin",
+        "name": "Cream soda",
         "critical_amount": 200,
         "expiration": {
             "years": 2
@@ -33,7 +33,7 @@
         "price": 98,
         "type_id": 2,
         "technology": {
-            "description": "do something bla bla Zhopatushin",
+            "description": "do something bla bla Cream soda",
             "prepare_time": {
                 "hours": 3,
                 "minutes": 20

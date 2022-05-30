@@ -31,7 +31,7 @@ class OrderController(
 ) : CommonController<Order, OrderDto>(orderService, Order::class.java) {
     override fun insert(ui: OrderDto): String {
         println(ui)
-        return "redirect:/order"
+        return super.insert(ui)
     }
 
     override fun getSingle(id: String, model: Model): String {
@@ -47,8 +47,9 @@ class OrderController(
 
     override fun create(model: Model): String {
         runBlocking {
-            model.addAttribute("order")
+            model.addAttribute("order", OrderDto())
             model.addAttribute("meds", medicineService.findAll().map { it.toUi() })
+            model.addAttribute("stats", OrderMedicineStatus.values())
             model.addAttribute("statuses", OrderStatus.values())
             model.addAttribute("clients", clientService.findAll().map { it.toUi() })
         }
