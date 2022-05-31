@@ -29,7 +29,6 @@ class JavaMongoApplication(
     val medicineShippingService: MedicineShippingService
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
-//        runBlocking { medicineShippingService.findAll().forEach(::println) }
         when (Strategy.valueOf(environment.getProperty("migration.strategy")!!)) {
             Strategy.NONE -> println("No migration ... skipping")
             Strategy.SOFT -> {
