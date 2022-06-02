@@ -2,6 +2,7 @@ package com.example.javamongo.data.entity
 
 import com.example.javamongo.controller.dto.TypeDto
 import com.example.javamongo.controller.dto.UiDto
+import com.google.gson.Gson
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
@@ -15,5 +16,5 @@ data class Type(
     val name: String,
     val attributes: Map<String, String>? = null
 ) : Entity {
-    override fun toUi(): UiDto = TypeDto(id.toString(), name)
+    override fun toUi(): UiDto = TypeDto(id.toString(), name, Gson().toJson(attributes))
 }

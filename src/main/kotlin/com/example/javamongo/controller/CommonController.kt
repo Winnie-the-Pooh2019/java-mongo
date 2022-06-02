@@ -28,6 +28,7 @@ abstract class CommonController<T : Entity, U: UiDto>(protected val service: Mon
         val obj = runBlocking {
             service.findById(id).toUi()
         }
+        println(obj)
         val className = clazz.simpleName.lowercase()
         model.addAttribute(className, obj)
 

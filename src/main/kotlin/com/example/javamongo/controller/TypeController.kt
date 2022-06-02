@@ -6,6 +6,8 @@ import com.example.javamongo.services.interfaces.MedicineService
 import com.example.javamongo.services.interfaces.MedicineShippingService
 import com.example.javamongo.services.interfaces.OrderService
 import com.example.javamongo.services.interfaces.TypeService
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.runBlocking
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -45,5 +47,9 @@ class TypeController(
         return super.create(model)
     }
 
-    override suspend fun TypeDto.toEntity(): Type = Type(id = if (id.isBlank()) ObjectId() else ObjectId(id), name)
+    override suspend fun TypeDto.toEntity(): Type = Type(
+        id = if (id.isBlank()) ObjectId() else ObjectId(id),
+        name,
+        Gson().fromJson(attributes, object : TypeToken<Map<String, String>>() {}.type)
+    )
 }

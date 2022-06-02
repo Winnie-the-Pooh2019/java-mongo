@@ -13,12 +13,60 @@
         }
     </style>
 
+    <script>
+        function flush() {
+            document.getElementById("attributes").value = ""
+            document.getElementById("watch_attributes").innerHTML = ""
+        }
+
+        function addIngredient() {
+            let attrName = document.getElementById("attribute_name").value
+            let attrDesc = document.getElementById("amount").value
+            console.log(attrName + '  ' + attrDesc)
+
+            if (attrName !== '' && attrDesc !== '') {
+                let currentMap
+                try {
+                    let current = JSON.parse(document.getElementById("attributes").value)
+                    currentMap = new Map(Object.entries(current))
+                } catch (e) {
+                    currentMap = new Map()
+                }
+                currentMap.set(attrName, attrDesc);
+                document.getElementById("attributes").value = JSON.stringify(Object.fromEntries(currentMap))
+
+                echoTypes()
+            }
+        }
+
+        function echoTypes() {
+            const data = document.getElementById("attributes").value
+            console.log(`data = ${data}`)
+            if (data !== "") {
+                const current = JSON.parse(data)
+                const currentMap = new Map(Object.entries(current))
+
+                const watcher = document.getElementById("watch_attributes")
+                watcher.innerHTML = ""
+
+                for (let [key, value] of currentMap.entries()) {
+                    const lab = document.createElement("li")
+                    lab.classList.add("list-group-item")
+                    lab.textContent = `${key} : ${value}`
+                    console.log(lab.textContent)
+
+                    watcher.appendChild(lab)
+                }
+            }
+        }
+    </script>
+
     <meta charset="UTF-8">
-    <title th:text="'Type' + ${type.name}">Creating type</title>
+    <title th:text="'Type ' + ${type.name}">Creating type</title>
 </head>
 <body class="modal-dialog modal-context modal-header card">
 <div class="jumbotron card-header">
-    <h2 class="display-3" th:text="${type.name}">Creating type</h2>
+    <h2 class="display-3" th:text="'Type ' + ${type.name}">Creating type</h2>
 </div>
 
 <div class="form-group card-body">
@@ -37,6 +85,51 @@
                 <input type="text" required class="form-control" id="first_name_field" th:field="*{name}">
             </div>
         </div>
+
+        <div class="modal" id="ingredientsModal" tabindex="-1" role="dialog"
+             aria-labelledby="ingredientsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ingredientsModalLabel">Add type attribute</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" >
+                        <label for="attribute_name">Enter attribute name</label>
+                        <input type="text" id="attribute_name" class="form-control">
+                        <label for="amount">Attribute description</label>
+                        <input type="text" class="form-control" id="amount">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                onclick="addIngredient()">Save changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <label for="watch_attributes">Attributes for this type</label>
+        <ul id="watch_attributes" class="list-group">
+            <!-- here will be attributes -->
+        </ul>
+
+        <div hidden>
+            <input th:field="*{attributes}" type="text" id="attributes">
+            <script>echoTypes()</script>
+        </div>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ingredientsModal">
+            Add type attribute
+        </button>
+        <button type="button" onclick="flush()" class="btn btn-danger">
+            Flush
+        </button>
         <button type="submit" class="btn btn-success">Edit</button>
     </form>
 </div>
