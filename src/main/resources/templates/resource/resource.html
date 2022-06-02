@@ -14,12 +14,17 @@
     </style>
 
     <script>
-        function flush(id) {
-            let field = document.getElementById(id)
-            field.value = ''
+        function echo() {
+            const expiration = document.getElementById('expiration').value.split('.')
+            const titles = document.getElementsByClassName("expiration")
+
+            for (let i = 0; i < titles.length && i < expiration.length; i++) {
+                titles[i].value = expiration[i]
+            }
         }
 
         function acceptChanges(id) {
+            console.log("expiration accepted")
             const expiration = document.getElementById(id)
             let elements = document.getElementsByClassName(id)
             let text = ""
@@ -79,47 +84,23 @@
             </div>
         </div>
 
-        <!-- Button trigger modal -->
-
-
-        <!-- Modal -->
-        <div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenteredLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" th:each="interval : ${intervals}">
-                        <label th:text="${interval.name}" th:id="'interval_label_' + ${interval.ordinal}"></label>
-                        <input type="text" class="expiration form-control" th:id="'interval_' + ${interval.ordinal}">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                onclick="acceptChanges('expiration')">Save changes
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="form-group">
             <label class="control-label" for="expiration">expiration time
                 (years.months.days.hours.minutes.seconds)</label>
-            <div>
+            <div hidden>
                 <input th:value="'0.0.0.0.0.0'" pattern="^([0-9]+\.){5}[0-9]$" type="text" required class="form-control" id="expiration"
                        th:field="*{expiration}">
             </div>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCentered">
-                Set expiration range
-            </button>
+            <div class="modal-body" th:each="interval : ${intervals}">
+                <label th:text="${interval.name}" th:id="'interval_label_' + ${interval.ordinal}"></label>
+                <input type="text" class="expiration form-control" th:id="'interval_' + ${interval.ordinal}">
+            </div>
+            <script>echo()</script>
         </div>
 
-        <button type="submit" class="btn btn-success">Edit</button>
+        <div class="modal-footer">
+            <button onclick="acceptChanges('expiration')" type="submit" class="btn btn-success">Edit</button>
+        </div>
     </form>
 </div>
 

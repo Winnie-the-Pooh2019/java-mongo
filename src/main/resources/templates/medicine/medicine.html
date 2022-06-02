@@ -15,8 +15,41 @@
 
     <script>
         function flush(id) {
-            let field = document.getElementById(id)
-            field.value = ''
+            document.getElementById(id).value = ""
+            document.getElementById("watch_res").innerHTML = ""
+        }
+
+        function echo(id) {
+            const expiration = document.getElementById(id).value.split('.')
+            const titles = document.getElementsByClassName(id)
+            console.log(`data = ${expiration}`)
+
+            for (let i = 0; i < titles.length && i < expiration.length; i++) {
+                titles[i].value = expiration[i]
+            }
+        }
+
+        function resEcho() {
+            const inputRes = document.getElementById("tech_resources").value
+
+            if (inputRes !== "") {
+                const res = JSON.parse(inputRes)
+                const watcher = document.getElementById("watch_res")
+                watcher.innerHTML = ""
+                for (let i = 0; i < res.length; i++) {
+                    const item = document.createElement("li")
+                    item.classList.add("list-group-item")
+                    if (i % 3 === 1)
+                        item.classList.add("list-group-item-info")
+                    else if (i % 3 === 2)
+                        item.classList.add("list-group-item-danger")
+
+                    item.textContent = `${res[i].resource.name} : ${res[i].count}`
+                    console.log(item.textContent)
+
+                    watcher.appendChild(item)
+                }
+            }
         }
 
         function acceptChanges(id) {
@@ -36,6 +69,11 @@
             }
 
             expiration.value = text
+        }
+
+        function accept() {
+            acceptChanges("expiration")
+            acceptChanges("prepare")
         }
 
         function addIngredient() {
@@ -58,26 +96,29 @@
 
                 const inputRes = document.getElementById("tech_resources")
                 let text = ""
-                //JSON.parse(inputRes.value)
                 if (inputRes.value === "")
                     text = [newRes]
-                else  {
+                else {
                     text = JSON.parse(inputRes.value)
-                    if (!text.includes(newRes))
-                        text.push(newRes)
+                    for (const t of text) {
+                        if (t.resource.id === newRes.resource.id)
+                            t.count = newRes.count
+                    }
+                    text.push(newRes)
                 }
-
                 inputRes.value = JSON.stringify(text)
+
+                resEcho()
             }
         }
     </script>
 
     <meta charset="UTF-8">
-    <title th:text="${medicine.name}"></title>
+    <title th:text="'Med ' + ${medicine.name}"></title>
 </head>
 <body class="modal-dialog modal-context modal-header card">
 <div class="jumbotron card-header">
-    <h2 class="display-3" th:text="${medicine.name}">medicine name</h2>
+    <h2 class="display-3" th:text="'Med ' + ${medicine.name}">medicine name</h2>
 </div>
 
 <div class="form-group card-body">
@@ -100,16 +141,18 @@
         <div class="form-group">
             <label class="control-label" for="first_name_field">Critical amount</label>
             <div>
-                <input pattern="^[1-9][0-9]*$" title="number format" type="text" required class="form-control" id="first_name_field"
+                <input pattern="^[1-9][0-9]*$" title="number format" type="text" required class="form-control"
+                       id="first_name_field"
                        th:value="${medicine.criticalAmount}" th:field="*{criticalAmount}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label" for="typeSelector">Type Name</label>
             <div>
-                <div class="modal-body" >
-                    <select th:field="*{typeId}" id="typeSelector" class="form-select">
-                        <option th:each="type : ${types}" class="res_select" th:value="${type.id}" th:text="${type.name}"></option>
+                <div class="modal-body">
+                    <select th:field="*{typeId}" id="typeSelector" class="form-select form-select-sm">
+                        <option th:each="type : ${types}" class="res_select" th:value="${type.id}"
+                                th:text="${type.name}"></option>
                     </select>
                 </div>
             </div>
@@ -117,49 +160,25 @@
         <div class="form-group">
             <label class="control-label" for="price">Price</label>
             <div>
-                <input pattern="^-?([0-9]*\.[0-9]+|[0-9]+)$" title="number format" type="text" required class="form-control" id="price" th:value="${medicine.price}"
+                <input pattern="^-?([0-9]*\.[0-9]+|[0-9]+)$" title="number format" type="text" required
+                       class="form-control" id="price" th:value="${medicine.price}"
                        th:field="*{price}">
             </div>
         </div>
 
-        <!-- Button trigger modal -->
-
-
-        <!-- Modal -->
-        <div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenteredLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" th:each="interval : ${intervals}">
-                        <label th:text="${interval.name}" th:id="'interval_label_' + ${interval.ordinal}"></label>
-                        <input type="text" class="expiration form-control" th:id="'interval_' + ${interval.ordinal}">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                onclick="acceptChanges('expiration')">Save changes
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="form-group">
-            <label class="control-label" for="expiration">expiration time
+            <label class="control-label" for="expiration">Expiration time
                 (years.months.days.hours.minutes.seconds)</label>
-            <div>
-                <input th:value="'0.0.0.0.0.0'" pattern="^([0-9]+\.){5}[0-9]$" type="text" required class="form-control" id="expiration"
+            <div hidden>
+                <input th:value="'0.0.0.0.0.0'" pattern="^([0-9]+\.){5}[0-9]$" type="text" required class="form-control"
+                       id="expiration"
                        th:field="*{expiration}">
             </div>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCentered">
-                Set expiration range
-            </button>
+            <div class="modal-body" th:each="interval : ${intervals}">
+                <label th:text="${interval.name}" th:id="'interval_label_' + ${interval.ordinal}"></label>
+                <input type="text" class="expiration form-control" th:id="'interval_' + ${interval.ordinal}">
+            </div>
+            <script>echo("expiration")</script>
         </div>
 
         <div class="card-footer">
@@ -174,43 +193,20 @@
             </div>
             <div class="form-group">
 
-                <!-- Modal -->
-                <div class="modal" id="prepModal" tabindex="-1" role="dialog"
-                     aria-labelledby="prepModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="prepModalLabel">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-
-                            <div class="modal-body" th:each="interval : ${intervals}">
-                                <label th:text="${interval.name}" th:id="'interval_label_' + ${interval.ordinal}"></label>
-                                <input type="text" class="tech_time form-control" th:id="'interval_' + ${interval.ordinal}">
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                        onclick="acceptChanges('tech_time')">Save changes
-                                </button>
-                            </div>
-                        </div>
+                <div class="form-group">
+                    <label class="control-label" for="prepare">Preparation time
+                        (years.months.days.hours.minutes.seconds)</label>
+                    <div hidden>
+                        <input th:value="'0.0.0.0.0.0'" pattern="^([0-9]+\.){5}[0-9]$" type="text" required
+                               class="form-control" id="prepare"
+                               th:field="*{prepareTime}">
                     </div>
+                    <div class="modal-body" th:each="interval : ${intervals}">
+                        <label th:text="${interval.name}" th:id="'interval_label_' + ${interval.ordinal}"></label>
+                        <input type="text" class="prepare form-control" th:id="'interval_' + ${interval.ordinal}">
+                    </div>
+                    <script>echo("prepare")</script>
                 </div>
-
-                <label class="control-label" for="tech_time">Prepare time
-                    (years.months.days.hours.minutes.seconds)</label>
-                <div>
-                    <input readonly type="text" class="form-control" id="tech_time"
-                           th:value="${medicine.prepareTime}"
-                           th:field="*{prepareTime}">
-                </div>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#prepModal">
-                    Set prepare time range
-                </button>
             </div>
             <div class="form-group">
 
@@ -226,9 +222,10 @@
                                 </button>
                             </div>
 
-                            <div class="modal-body" >
+                            <div class="modal-body">
                                 <select id="res_selected">
-                                    <option th:each="resource : ${resources}" class="res_select" th:value="${resource.id}" th:text="${resource.name}"></option>
+                                    <option th:each="resource : ${resources}" class="res_select"
+                                            th:value="${resource.id}" th:text="${resource.name}"></option>
                                 </select>
                                 <label>Count</label>
                                 <input type="text" class="form-control" id="res_count">
@@ -246,10 +243,14 @@
 
                 <label class="control-label" for="tech_resources">List of needed ingredients</label>
                 <div>
-                    <input readonly type="text" class="form-control" id="tech_resources"
+                    <input hidden type="text" class="form-control" id="tech_resources"
                            th:field="*{resources}">
-<!--                           th:text="${medicine.technology.resources}"-->
-                    <button class="btn btn-warning" type="button" id="flush_res" onclick="flush('tech_resources')">Flush</button>
+                    <ul id="watch_res" class="list-group">
+                    </ul>
+                    <script>resEcho()</script>
+                    <button class="btn btn-warning" type="button" id="flush_res" onclick="flush('tech_resources')">
+                        Flush
+                    </button>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ingredientsModal">
                         Add resource
                     </button>
@@ -257,7 +258,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-success">Edit</button>
+        <button onclick="accept()" type="submit" class="btn btn-success">Edit</button>
     </form>
 </div>
 

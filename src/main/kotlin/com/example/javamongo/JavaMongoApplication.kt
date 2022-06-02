@@ -13,6 +13,7 @@ import org.springframework.boot.runApplication
 import org.springframework.core.env.Environment
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import java.time.LocalDate
+import kotlin.system.exitProcess
 
 @SpringBootApplication
 @EnableMongoRepositories
@@ -86,6 +87,7 @@ class JavaMongoApplication(
                     orderService.getFavouriteClientsByTypes(listOf("maz")).forEach(::println)
 
                     println("finished")
+                    exitProcess(0)
                 }
             }
         }

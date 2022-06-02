@@ -49,13 +49,19 @@
                 const watcher = document.getElementById("watch_attributes")
                 watcher.innerHTML = ""
 
+                let i = 0
                 for (let [key, value] of currentMap.entries()) {
                     const lab = document.createElement("li")
                     lab.classList.add("list-group-item")
+                    if (i % 3 === 1)
+                        lab.classList.add("list-group-item-info")
+                    else if (i % 3 === 2)
+                        lab.classList.add("list-group-item-danger")
                     lab.textContent = `${key} : ${value}`
                     console.log(lab.textContent)
 
                     watcher.appendChild(lab)
+                    i++
                 }
             }
         }

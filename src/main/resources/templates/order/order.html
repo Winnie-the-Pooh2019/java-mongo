@@ -140,7 +140,7 @@
             <label class="control-label" for="statusSelector">Status</label>
             <div>
                 <div class="modal-body">
-                    <select th:field="*{status}" id="statusSelector" class="form-select">
+                    <select th:field="*{status}" id="statusSelector" class="form-select form-select-sm">
                         <option th:each="status : ${statuses}" class="res_select" th:value="${status}"
                                 th:text="${status}"></option>
                     </select>
@@ -161,7 +161,7 @@
 
                     <div class="modal-body" >
                         <label for="res_selected">Select medicine</label>
-                        <select id="res_selected">
+                        <select id="res_selected" class="form-select form-select-sm">
                             <option th:each="resource : ${meds}" class="res_select" th:value="${resource.id}" th:text="${resource.name}"></option>
                         </select>
                         <label for="amount">Count</label>
@@ -169,7 +169,7 @@
                         <label for="price">Price</label>
                         <input type="text" class="form-control" id="price">
                         <label for="med_stat">Select status</label>
-                        <select id="med_stat">
+                        <select id="med_stat" class="form-select form-select-sm">
                             <option th:each="stat : ${stats}" class="res_select" th:value="${stat}" th:text="${stat}"></option>
                         </select>
                     </div>

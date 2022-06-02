@@ -62,7 +62,7 @@
             <label class="control-label" for="medicineSelector">Medicine Name</label>
             <div>
                 <div class="modal-body" >
-                    <select th:field="*{medicineId}" id="medicineSelector" class="form-select">
+                    <select th:field="*{medicineId}" id="medicineSelector" class="form-select form-select-sm">
                         <option th:each="medicine : ${medicines}" class="res_select" th:value="${medicine.id}" th:text="${medicine.name}"></option>
                     </select>
                 </div>
@@ -71,7 +71,7 @@
             <label class="control-label" for="statusSelector">Status</label>
             <div>
                 <div class="modal-body" >
-                    <select th:field="*{status}" id="statusSelector" class="form-select">
+                    <select th:field="*{status}" id="statusSelector" class="form-select form-select-sm">
                         <option th:each="status : ${statuses}" class="res_select" th:value="${status}" th:text="${status}"></option>
                     </select>
                 </div>
