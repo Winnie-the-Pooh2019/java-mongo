@@ -842,7 +842,8 @@ db.orders.insertMany([
                 "price": 99,
                 "status": "OK"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "IN_PROGRESS",
@@ -855,7 +856,8 @@ db.orders.insertMany([
                 "price": 90,
                 "status": "IN_PROGRESS"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "IN_PROGRESS",
@@ -880,7 +882,8 @@ db.orders.insertMany([
                 "price": 100,
                 "status": "IN_PROGRESS"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "DONE",
@@ -911,7 +914,8 @@ db.orders.insertMany([
                 "price": 505,
                 "status": "OK"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "IN_PROGRESS",
@@ -924,7 +928,8 @@ db.orders.insertMany([
                 "price": 90,
                 "status": "IN_PROGRESS"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "IN_PROGRESS",
@@ -937,7 +942,8 @@ db.orders.insertMany([
                 "price": 100,
                 "status": "NO_COMPONENTS"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "PICKED",
@@ -956,7 +962,8 @@ db.orders.insertMany([
                 "price": 100,
                 "status": "OK"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "IN_PROGRESS",
@@ -975,7 +982,8 @@ db.orders.insertMany([
                 "price": 132,
                 "status": "OK"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "IN_PROGRESS",
@@ -994,7 +1002,8 @@ db.orders.insertMany([
                 "price": 160,
                 "status": "IN_PROGRESS"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "PICKED",
@@ -1019,7 +1028,8 @@ db.orders.insertMany([
                 "price": 100,
                 "status": "OK"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "IN_PROGRESS",
@@ -1044,7 +1054,8 @@ db.orders.insertMany([
                 "price": 99,
                 "status": "IN_PROGRESS"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "IN_PROGRESS",
@@ -1057,7 +1068,8 @@ db.orders.insertMany([
                 "price": 90,
                 "status": "IN_PROGRESS"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "IN_PROGRESS",
@@ -1082,7 +1094,8 @@ db.orders.insertMany([
                 "price": 195,
                 "status": "OK"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "IN_PROGRESS",
@@ -1125,7 +1138,8 @@ db.orders.insertMany([
                 "price": 220,
                 "status": "OK"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     },
     {
         "status": "IN_PROGRESS",
@@ -1150,6 +1164,7 @@ db.orders.insertMany([
                 "price": 150,
                 "status": "IN_PROGRESS"
             }
-        ]
+        ],
+        _class: "com.example.javamongo.data.entity.Order"
     }
 ]);
