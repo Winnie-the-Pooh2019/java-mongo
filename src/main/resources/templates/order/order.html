@@ -15,8 +15,40 @@
 
     <script>
         function flush(id) {
-            let field = document.getElementById(id)
-            field.value = ''
+            document.getElementById(id).value = ""
+            document.getElementById("watch_res").innerHTML = ""
+        }
+
+        function resEcho() {
+            const inputRes = document.getElementById("tech_resources").value
+
+            if (inputRes !== "") {
+                const res = JSON.parse(inputRes)
+                const watcher = document.getElementById("watch_res")
+                watcher.innerHTML = ""
+                for (let i = 0; i < res.length; i++) {
+                    const row = document.createElement("tr")
+                    if (i % 2 === 0)
+                        row.classList.add("table-info")
+                    else
+                        row.classList.add("table-danger")
+
+                    const name = document.createElement("td")
+                    name.textContent = res[i].medicineName
+                    const amount = document.createElement("td")
+                    amount.textContent = res[i].amount
+                    const price = document.createElement("td")
+                    price.textContent = res[i].price
+                    const status = document.createElement("td")
+                    status.textContent = res[i].status
+                    row.appendChild(name)
+                    row.appendChild(amount)
+                    row.appendChild(price)
+                    row.appendChild(status)
+
+                    watcher.appendChild(row)
+                }
+            }
         }
 
         function acceptChanges(id) {
@@ -78,24 +110,18 @@
 
                 inputRes.value = JSON.stringify(text)
             }
+
+            resEcho()
         }
 
         function dateCheck() {
-            const start = document.getElementById('dateOrdered').value;
-            const end = document.getElementById('dateShipped').value;
+            const start = document.getElementById('datePicking').value;
 
-            if (end < start && end !== '' || start === '') {
+            if (start === '') {
                 alert('Shipping date must be greater than order date');
                 document.getElementById("finish").disabled = true
             } else
                 document.getElementById("finish").disabled = false
-        }
-
-        function add(arg) {
-            let node = document.createElement('option')
-            node.value = "Zhopa"
-            node.text = "piska"
-            document.getElementById("statusSelector").appendChild(node)
         }
     </script>
 
@@ -103,8 +129,8 @@
     <title th:text="'Order ' + ${order.id}"></title>
 </head>
 <body class="modal-dialog modal-context modal-header card">
-<div class="card-header">
-    <p th:text="${order.id}">Order</p>
+<div class="jumbotron card-header">
+    <p class="display-3">Order</p>
 </div>
 
 <div class="form-group card-body">
@@ -184,20 +210,38 @@
             </div>
         </div>
 
+        <label class="control-label" for="tech_resources">List of needed medicines</label>
         <div>
-            <label for="tech_resources">Medicines</label>
-            <input readonly type="text" class="form-control" id="tech_resources"
-                                                       th:field="*{medicines}">
-            <button class="btn btn-warning" type="button" id="flush_res" onclick="flush('tech_resources')">Flush
+            <input hidden type="text" class="form-control" id="tech_resources"
+                   th:field="*{medicines}">
+<!--            <ul id="watch_res" class="list-group">-->
+<!--            </ul>-->
+            <table id="" class="table">
+                <thead>
+                    <tr>
+                        <th>Medicine name</th>
+                        <th>Medicine count</th>
+                        <th>Medicine price</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="watch_res">
+
+                </tbody>
+            </table>
+            <script>resEcho()</script>
+            <button class="btn btn-warning" type="button" id="flush_res" onclick="flush('tech_resources')">
+                Flush
             </button>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ingredientsModal">
                 Add resource
             </button>
         </div>
 
-        <button type="submit" class="btn btn-success">Edit</button>
+        <button onclick="dateCheck()" id="finish" type="submit" class="btn btn-success">Edit</button>
     </form>
 </div>
+<script>dateCheck()</script>
 
 </body>
 </html>

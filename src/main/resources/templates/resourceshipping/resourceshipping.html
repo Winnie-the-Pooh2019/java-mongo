@@ -14,13 +14,6 @@
     </style>
 
     <script>
-        function flush() {
-            let selector = document.getElementById("resourceSelector")
-            let optionId = selector.options[selector.selectedIndex].value
-            let optionName = selector.options[selector.selectedIndex].text
-            console.log("option = " + optionId + ' ' + optionName)
-        }
-
         function dateCheck() {
             const start = document.getElementById('dateOrdered').value;
             const end = document.getElementById('dateShipped').value;
@@ -99,7 +92,7 @@
             </div>
         </div>
 
-        <button id="finish" type="submit" class="btn btn-success">Edit</button>
+        <button onclick="dateCheck()" id="finish" type="submit" class="btn btn-success">Edit</button>
     </form>
 </div>
 
