@@ -28,7 +28,12 @@ db.orders.aggregate(
             }, count: {$count: {}}
         }
     },
-    {$project: {_id: 0, id: "$_id.id", last_name: "$_id.last_name", first_name: "$_id.first_name", status: 1, count: 1}}
+    {
+        $project: {
+            _id: 0, id: "$_id.id", last_name: "$_id.last_name",
+            first_name: "$_id.first_name", status: 1, count: 1
+        }
+    }
 );
 
 // 2
@@ -52,7 +57,12 @@ db.orders.aggregate(
             }
         }
     },
-    {$project: {_id: 0, id: "$_id.id", last_name: "$_id.last_name", first_name: "$_id.first_name", status: 1}}
+    {
+        $project: {
+            _id: 0, id: "$_id.id", last_name: "$_id.last_name",
+            first_name: "$_id.first_name", status: 1
+        }
+    }
 );
 
 // 3
@@ -68,7 +78,12 @@ db.orders.aggregate(
             as: "medicine"
         }
     },
-    {$project: {medicineName: {$arrayElemAt: ["$medicine.name", 0]}, medicineAmount: "$medicines.amount"}},
+    {
+        $project: {
+            medicineName: {$arrayElemAt: ["$medicine.name", 0]},
+            medicineAmount: "$medicines.amount"
+        }
+    },
     {$group: {_id: "$medicineName", count: {$sum: "$medicineAmount"}}},
     {$sort: {count: -1}},
     {$limit: 10}
@@ -106,7 +121,12 @@ db.orders.aggregate(
     },
     {$addFields: {client: {$arrayElemAt: ["$client", 0]}, people: []}},
     {$group: {_id: "$client", count: {$count: {}}}},
-    {$project: {_id: 0, id: "$_id.id", last_name: "$_id.last_name", first_name: "$_id.first_name", count: 1}}
+    {
+        $project: {
+            _id: 0, id: "$_id.id", last_name: "$_id.last_name",
+            first_name: "$_id.first_name", count: 1
+        }
+    }
 );
 
 // 5
@@ -277,23 +297,9 @@ db.orders.aggregate(
     },
     {$addFields: {client: {$arrayElemAt: ["$client", 0]}}},
     {$match: {"type.name": {$in: ["maz", "krem"]}}},
-    {
-        $group: {
-            _id: {
-                id: "$client._id",
-                last_name: "$client.last_name"
-            },
-            count: {$count: {}}
-        }
+    {$group: {_id: {id: "$client._id", last_name: "$client.last_name"}, count: {$count: {}}}
     },
-    {
-        $project: {
-            id: "$_id.id",
-            last_name: "$_id.last_name",
-            count: 1,
-            _id: 0
-        }
-    },
+    {$project: {id: "$_id.id", last_name: "$_id.last_name", count: 1, _id: 0}},
     {$sort: {count: -1}},
     {$limit: 10}
 );

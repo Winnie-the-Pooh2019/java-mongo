@@ -395,7 +395,7 @@ db.clients.insertMany([
     },
     {
         _id: new ObjectId(),
-        "last_name": "Lubovliy",
+        "last_name": "Krnk",
         "first_name": "Luba",
         "patronymic": "Vasilyevich",
         "phone": "8(123)531-54-49",
